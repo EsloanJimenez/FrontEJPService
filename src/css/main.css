@@ -1,0 +1,50 @@
+.main {
+   width: 80%;
+   margin: auto;
+   transition: all ease 1s;
+}
+.main ul {
+   display: flex;
+   position: relative;
+   justify-content: space-between;
+   list-style: none;
+}
+.main ul li {
+   color: #fff;
+   font-size: 20px;
+   padding: 5px 10px;
+}
+.main ul li a {
+   padding: 10px 15px;
+   position: relative;
+   text-decoration: none;
+   color: #fff;
+   font-size: 20px;
+   margin-left: 5px;
+   transition: all ease-in .3s;
+}
+.main ul li a:hover {
+   padding: 10px 15px;
+   background-color: #fff;
+   color: #000;
+   border-radius: 20px;
+}
+.main ul li ul {
+   display:none;
+}
+.main ul li:hover > ul {
+   display: block;
+   position: absolute;
+}
+.sub-menu li  {
+   margin: 10px 0;
+}
+.main-long .bajando {
+   background-color: #00000088;
+   height: 50px;
+}
+.subiendo {
+   width: 40%;
+   position: relative;
+   transform: translateY(-80px);
+}

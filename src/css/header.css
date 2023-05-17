@@ -1,0 +1,80 @@
+/* ----- HEADER -----  */
+.main-long {
+   width: 100%;
+   background-color: rgba(0, 0, 0, 0);
+   z-index: 5;
+   position: fixed;
+   top: 0;
+   left: 0;
+   transition: all ease .5s;
+}
+.main-long #info {
+   width: 90%;
+   height: 90px;
+   margin: auto;
+   color: #fff;
+   display: flex;
+   justify-content: space-between;
+}
+.main-long #info .imgLong {
+   width: 200px;
+   margin-top: 10px;
+   background-image: url(../images/logo_nuevo_blanco.png);
+   background-size: 200px;
+   background-repeat: no-repeat;
+   transition: all ease 1s;
+}
+.main-long #info .imgSmall {
+   width: 100px;
+   margin-top: 5px;
+   background-size: 100px;
+}
+.main-long #info .InfoLong {
+   margin-top: 10px;
+   display: flex;
+   flex-direction: column;
+   transition: all ease 1s;
+}
+.main-long #info .InfoSmall {
+   font-size: 12px;
+}
+.main-long #info .InfoLong .infoSpan { 
+   margin: 10px 0;
+}
+.main-long #info .InfoLong .infoSpanSmall { 
+   margin: 5px 0;
+}
+.main-long #info .InfoLong span a {
+   text-decoration: none;
+   color: #fff;
+}
+.main-long #info .InfoLong span a #tel, #dire {
+   margin-left: 5px;
+}
+
+.hover {
+   opacity: 1;
+}
+
+.aniHeaderSmall {
+   animation: aniHeaderSmall 1s;
+}
+
+@keyframes aniHeaderSmall {
+   0%{
+      opacity: 0;
+   } 100% {
+      opacity: 100;
+   }
+}
+.aniHeaderLong {
+   animation: aniHeaderLong 1s;
+}
+
+@keyframes aniHeaderLong {
+   0%{
+      opacity: 100;
+   } 100% {
+      opacity: 0;
+   }
+}

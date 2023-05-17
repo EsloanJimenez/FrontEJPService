@@ -1,0 +1,149 @@
+.container-table {
+   width: 100%;
+   height: 80vh;
+   margin: 50px 50px 0 50px;
+}
+.header {
+   display: flex;
+   justify-content: space-between;
+}
+.header #campo {
+   padding: 10px;
+   border: 2px solid #0d6efd;
+   border-radius: 10px 0 0 10px;
+   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   font-size: 18px;
+}
+.header #buscar {
+   padding: 10px;
+   border: 2px solid #0d6efd;
+   border-radius: 0 10px 10px 0;
+   background-color: #00000000;
+   cursor: pointer;
+   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   font-size: 18px;
+}
+/* TABLE */
+table {
+   width: 100%;
+}
+.table {
+   height: 75vh;
+   margin-top: 20px;
+   overflow: auto;
+   border-radius: 10px;
+}
+.table::-webkit-scrollbar {
+   width: 5px;
+}
+.table::-webkit-scrollbar-thumb {
+   background-color: #0d6efd;
+   border-radius: 5px;
+}
+table thead tr {
+   background-color: #0d6efd;
+   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   color: #fff;
+}
+table tr th, tr td {
+   padding: 10px 0;
+   text-align: center;
+}
+tr td {
+   padding: 0;
+}
+tbody tr:nth-child(odd) {
+   background-color: #f1f1f1;
+}
+
+/* FORM NEW CUSTOMER */
+
+.container-form {
+   width: 100%;
+   height: 100vh;
+   position: absolute;
+   top: 0;
+   left: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: rgba(0, 0, 0, 0.553);
+   z-index: 1000;
+}
+.card {
+   width: 400px;
+   margin-top: 50px;
+   border: 1px solid #000;
+   border-radius: 10px;
+   background-color: #fff;
+}
+.card-header {
+   padding: 15px;
+   border-bottom: 1px solid #bbbbbb;
+   border-top-left-radius: 10px;
+   background-color: #ebebeb;
+   display: flex;
+   justify-content: space-between;
+}
+.closeClient {
+   width: 35px;
+   height: 35px;
+   border-radius: 50%;
+   position: relative;
+   bottom: 30px;
+   left: 30px;
+   cursor: pointer;
+   border: 1px solid red;
+   color: red;
+   background-color: #ffffff;
+   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   transition: all ease .5s;
+}
+.closeClient:hover {
+   border: 2px solid #fff;
+   color: #fff;
+   background-color: red;
+}
+.right {
+   float: right;
+}
+.card-body {
+   padding: 15px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.mb-3 {
+   padding: 10px 0;
+}
+.form-label {
+   margin-bottom: 10px;
+   display: block;
+}
+.form-control {
+   width: 100%;
+   padding: 15px 10px;
+   border: 1px solid #bbbbbb;
+   border-radius: 10px;
+   font-size: 16px;
+}
+.hide_font{
+   display: none;
+}
+
+/* VIEW REGISTER WAITER */
+
+.container .container-table table #teamMember img {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   transition: all ease 1s;
+}
+.container .container-table table #teamMember img:hover {
+   transform: translate(100px, 100px)  scale(5.5);
+   border-radius: 10px;
+   z-index: 100;
+}
+.container .container-table table #teamMember a {
+   padding-left: 5px;
+   text-decoration: none;
+   color: #000;
+}

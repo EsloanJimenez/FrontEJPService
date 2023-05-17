@@ -1,0 +1,19 @@
+.infoEvent {
+   display: flex;
+   justify-content: space-around;
+}
+.infoEvent td {
+   padding: 0 15px;
+}
+.tableShort, .tableSmall {
+   /* overflow: hidden; */
+   border-radius: 10px;
+}
+
+.tableSmall {
+   background-color: rgb(255, 255, 255);
+}
+
+.hide_font{
+   display: none;
+}
