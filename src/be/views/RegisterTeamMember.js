@@ -96,67 +96,69 @@ export const RegisterTeamMember = () => {
    }
 
    const validate = () => {
-      let parametros;
-
       if (lastName.trim() === '') show_alerta('Escribe el nombre del miembro de equipo', 'warning')
       else if (firstName.trim() === '') show_alerta('Escribe el apellido del miembro de equipo', 'warning')
       else if (idCard.trim() === '') show_alerta('Escribe el numero de cedula del miembro de equipo', 'warning')
       else if (cellPhone.trim() === '') show_alerta('Escribe el numero de telefono del Miembro De Equipo', 'warning')
       else {
          if (operation === 1) {
-            parametros = { photo: photo.trim(), lastName: lastName, firstName: firstName, idCard: idCard, sex: sex, cellPhone: cellPhone, cluster: cluster, bankName: bankName, bankAccountType: bankAccountType, accountNumber: accountNumber, status: status };
+            axios.post(`${url}`, {
+               photo: photo.trim(), 
+               lastName: lastName, 
+               firstName: firstName, 
+               idCard: idCard, 
+               sex: sex, 
+               cellPhone: cellPhone,
+               cluster: cluster, 
+               bankName: bankName, 
+               bankAccountType: bankAccountType,
+               accountNumber: accountNumber,
+               status: status
+            }).then(res => {
 
-            const requestInit = {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(parametros)
-            }
+               show_alerta('Miembro De Equipo Registrado', 'success');
 
-            fetch(`${url}`, requestInit)
-               .then(res => res.text())
-               .then(res => {
+               if (res.data === 'success') {
+                  document.querySelector('#photo').value = null;
 
-                  show_alerta('Miembro De Equipo Registrado', 'success');
+                  setPhoto(null);
+                  setLastName('');
+                  setFirstName('');
+                  setIdCard('');
+                  setCellPhone('');
+                  setAccountNumber('');
 
-                  if (res == 'success') {
-                     document.querySelector('#photo').value = null;
-
-                     setPhoto(null);
-                     setLastName('');
-                     setFirstName('');
-                     setIdCard('');
-                     setCellPhone('');
-                     setAccountNumber('');
-
-                     getRegisterTeamMember();
-                     closeClient();
-                  }
-               })
+                  getRegisterTeamMember();
+                  closeClient();
+               }
+            })
 
          } else if (operation === 2) {
-            parametros = { idTeamMember: ids, photo: photo.trim(), lastName: lastName.trim(), idCard: idCard.trim(), sex: sex.trim(), cellPhone: cellPhone.trim(), cluster: cluster.trim(), bankName: bankName.trim(), bankAccountType: bankAccountType.trim(), accountNumber: accountNumber.trim(), status: status.trim() };
+            axios.put(`${url}`, {
+               idTeamMember: ids, 
+               photo: photo.trim(), 
+               lastName: lastName.trim(), 
+               idCard: idCard.trim(), 
+               sex: sex.trim(), 
+               cellPhone: cellPhone.trim(), 
+               cluster: cluster.trim(), 
+               bankName: bankName.trim(), 
+               bankAccountType: bankAccountType.trim(), 
+               accountNumber: accountNumber.trim(), 
+               status: status.trim()
+            }).then(res => {
 
-            const requestInit = {
-               method: 'PUT',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(parametros)
-            }
+               show_alerta('Miembro De Equipo Actualizado', 'success');
 
-            fetch(`${url}Update/${ids}`, requestInit)
-               .then(res => res.text())
-               .then(res => {
+               if (res.data === 'success') {
+                  document.querySelector('#photo').value = null;
 
-                  show_alerta('Miembro De Equipo Actualizado', 'success');
+                  setPhoto(null);
 
-                  if (res == 'success') {
-                     document.querySelector('#photo').value = null;
-
-                     setPhoto(null);
-
-                     closeClient();
-                     getRegisterTeamMember();
-                  }
-               })
+                  closeClient();
+                  getRegisterTeamMember();
+               }
+            })
          }
       }
    }
@@ -170,13 +172,7 @@ export const RegisterTeamMember = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if (result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
-
-            fetch(`${url}Delete/${id}`, requestInit)
-               .then(res => res.text())
-               .then(res => console.log(res))
+            axios.detele(`${url}Delete/${id}`);
 
             show_alerta('Miembro De Equipo Eliminado', 'success')
             getRegisterTeamMember();

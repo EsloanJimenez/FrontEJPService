@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios, { Axios } from 'axios'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -144,25 +144,22 @@ export const Sales = () => {
    }
 
    const updateWaiterPay = () => {
-      let parameters = { idPaymentWaiter: ids, idSales: idSales, date: date, time: time, payment: payment, status: status };
+      axios.put(`${url}paymentWaiterUpdated/${ids}`, {
+         idPaymentWaiter: ids,
+         idSales: idSales,
+         date: date,
+         time: time,
+         payment: payment,
+         status: status
+      }).then(res => {
 
-      const requestInit = {
-         method: 'PUT',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(parameters)
-      }
+         show_alerta('Pago Camarero Actualizado', 'success');
 
-      fetch(`${url}paymentWaiterUpdated/${ids}`, requestInit)
-         .then(res => res.text())
-         .then(res => {
-
-            show_alerta('Pago Camarero Actualizado', 'success');
-
-            if (res == 'Payment Waiter Updated!') {
-               getSales();
-               closeClient();
-            }
-         })
+         if (res.data === 'Payment Waiter Updated!') {
+            getSales();
+            closeClient();
+         }
+      })
    }
 
    const addWaiter = () => {
@@ -199,55 +196,48 @@ export const Sales = () => {
    }
 
    const validar = (op) => {
-      let parameters;
-
       if (op === 1) {
-         if (description.trim() === '') show_alerta('Escribe la descripcion de la venta', 'warning')
-         else if (idCustomers.trim() === '') show_alerta('Seleccione el cliente', 'warning')
-         else if (amount.trim() === '') show_alerta('Ingrese la cantidad de camareros', 'warning')
-         else if (price.trim() === '') show_alerta('Ingrese el precio por camarero', 'warning')
+         if (description === '') show_alerta('Escribe la descripcion de la venta', 'warning')
+         else if (idCustomers === '') show_alerta('Seleccione el cliente', 'warning')
+         else if (amount === '') show_alerta('Ingrese la cantidad de camareros', 'warning')
+         else if (price === '') show_alerta('Ingrese el precio por camarero', 'warning')
          else {
             if (operation == 1) {
-               parameters = { description: description.trim(), idCustomers: idCustomers.trim(), date: date.trim(), time: time.trim(), amount: amount.trim(), price: price.trim(), comment: comment.trim() };
+               axios.post(`${url}sales`, {
+                  description: description.trim(),
+                  idCustomers: idCustomers.trim(),
+                  date: date.trim(),
+                  time: time.trim(),
+                  amount: amount.trim(),
+                  price: price.trim(),
+                  comment: comment.trim()
+               }).then(res => {
+                  show_alerta('Venta Registrado', 'success');
 
-               const requestInit = {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(parameters)
-               }
-
-               fetch(`${url}sales`, requestInit)
-                  .then(res => res.text())
-                  .then(res => {
-
-                     show_alerta('Venta Registrado', 'success');
-
-                     if (res === 'success') {
-                        closeClient();
-                        getSales();
-                     }
-                  })
+                  if (res.data === 'success') {
+                     closeClient();
+                     getSales();
+                  }
+               })
 
             } else if (operation == 2) {
-               parameters = { idSales: ids, description: description, idCustomers: idCustomers, date: date, time: time, amount: amount, price: price, comment: comment };
+               axios.put(`${url}salesUpdate/${ids}`, {
+                  idSales: ids,
+                  description: description,
+                  idCustomers: idCustomers,
+                  date: date,
+                  time: time,
+                  amount: amount,
+                  price: price,
+                  comment: comment
+               }).then(res => {
+                  show_alerta('Venta Actualizada', 'success');
 
-               const requestInit = {
-                  method: 'PUT',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(parameters)
-               }
-
-               fetch(`${url}salesUpdate/${ids}`, requestInit)
-                  .then(res => res.text())
-                  .then(res => {
-
-                     show_alerta('Venta Actualizada', 'success');
-
-                     if (res == 'sales updated!') {
-                        closeClient();
-                        getSales();
-                     }
-                  })
+                  if (res.data === 'sales updated!') {
+                     closeClient();
+                     getSales();
+                  }
+               })
             }
          }
       } else {
@@ -258,48 +248,42 @@ export const Sales = () => {
          else if (payment === undefined) show_alerta('Ingrese el pago', 'warning')
          else if (status === undefined) show_alerta('Seleccione el stado', 'warning')
          else {
-            parameters = { idTeamMember: idTeamMember.trim(), date: date.trim(), time: time.trim(), idSales: idSales.trim(), payment: payment.trim(), status: status.trim() }
+            axios.post(`${url}paymentWaiter`, {
+               idTeamMember: idTeamMember.trim(),
+               date: date.trim(),
+               time: time.trim(),
+               idSales: idSales.trim(),
+               payment: payment.trim(),
+               status: status.trim()
+            }).then(res => {
+               show_alerta('Camarero Registrado', 'success');
 
-            const requestInit = {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(parameters)
-            }
-
-            fetch(`${url}paymentWaiter`, requestInit)
-               .then(res => res.text())
-               .then(res => {
-                  show_alerta('Camarero Registrado', 'success');
-
-                  if (res === 'success') {
-                     closeClient();
-                     getSales();
-                  }
-               })
+               if (res.data === 'success') {
+                  closeClient();
+                  getSales();
+               }
+            })
          }
       }
    }
 
    const updateWaiter = async () => {
-      let parameters = { idPaymentWaiter: ids, idTeamMember: idTeamMember.trim(), date: date.trim(), time: time.trim(), payment: payment.trim(), status: status.trim() };
+      axios.put(`${url}salesUpdate/${ids}`, {
+         idPaymentWaiter: ids,
+         idTeamMember: idTeamMember.trim(),
+         date: date.trim(),
+         time: time.trim(),
+         payment: payment.trim(),
+         status: status.trim()
+      }).then(res => {
 
-      const requestInit = {
-         method: 'PUT',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(parameters)
-      }
+         show_alerta('Venta Actualizado', 'success');
 
-      fetch(`${url}salesUpdate/${ids}`, requestInit)
-         .then(res => res.text())
-         .then(res => {
-
-            show_alerta('Venta Actualizado', 'success');
-
-            if (res == 'sales updated!') {
-               closeClient();
-               getSales();
-            }
-         })
+         if (res.data === 'sales updated!') {
+            closeClient();
+            getSales();
+         }
+      })
    }
 
    const deleteSales = (id, description) => {
@@ -311,16 +295,11 @@ export const Sales = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if (result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
+            axios.delete(`${url}salesDelete/${id}`);
 
-            fetch(`${url}salesDelete/${id}`, requestInit)
-               .then(res => res.text())
-               .then(res => console.log(res))
-
-            show_alerta('Venta Eliminada', 'success')
+            show_alerta('Venta Eliminada', 'success');
             getSales();
+
          } else {
             show_alerta('La venta NO fue eliminada', 'info');
          }
@@ -336,15 +315,9 @@ export const Sales = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if (result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
+            axios.delete(`${url}paymentWaiterDelete/${id}`);
 
-            fetch(`${url}paymentWaiterDelete/${id}`, requestInit)
-               .then(res => res.text())
-               .then(res => console.log(res))
-
-            show_alerta('Camarero Eliminado', 'success')
+            show_alerta('Venta Eliminada', 'success');
             getSales();
          } else {
             show_alerta('El Camarero NO fue eliminada', 'info');

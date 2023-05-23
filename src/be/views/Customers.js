@@ -81,47 +81,38 @@ export const Customers = () => {
       else if (cellPhone.trim() === '') show_alerta('Escribe el numero de telefono del cliente', 'warning')
       else {
          if (operation === 1) {
-            parametros = { name: name.trim(), company: company.trim(), email: email.trim(), cellPhone: cellPhone.trim() };
+            axios.post(url, {
+               name: name.trim(),
+               company: company.trim(),
+               email: email.trim(),
+               cellPhone: cellPhone.trim()
+            }).then(res => {
 
-            const requestInit = {
-               method: 'POST',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(parametros)
-            }
+               show_alerta('Cliente Registrado', 'success');
 
-            fetch(url, requestInit)
-               .then(res => res.text())
-               .then(res => {
-
-                  show_alerta('Cliente Registrado', 'success');
-
-                  if (res == 'success') {
-                     getCustomers();
-                     closeClient();
-                  }
-               })
+               if (res.data === 'success') {
+                  getCustomers();
+                  closeClient();
+               }
+            })
 
          } else if (operation === 2) {
-            parametros = { id_customers: ids, name: name.trim(), company: company.trim(), email: email.trim(), cellPhone: cellPhone.trim() };
+            axios.put(`${url}Update/${ids}`, {
+               id_customers: ids,
+               name: name.trim(),
+               company: company.trim(),
+               email: email.trim(),
+               cellPhone: cellPhone.trim()
+            }).then(res => {
+               let msj = 'Cliente Actualizado';
 
-            const requestInit = {
-               method: 'PUT',
-               headers: { 'Content-Type': 'application/json' },
-               body: JSON.stringify(parametros)
-            }
+               show_alerta(msj, 'success');
 
-            fetch(`${url}Update/${ids}`, requestInit)
-               .then(res => res.text())
-               .then(res => {
-                  let msj = 'Cliente Actualizado';
-
-                  show_alerta(msj, 'success');
-
-                  if (res == 'customer updated!') {
-                     closeClient();
-                     getCustomers();
-                  }
-               })
+               if (res.data === 'customer updated!') {
+                  closeClient();
+                  getCustomers();
+               }
+            })
          }
       }
    }
@@ -139,9 +130,7 @@ export const Customers = () => {
                method: 'DELETE'
             }
 
-            fetch('http://localhost:9005/api/' + id, requestInit)
-               .then(res => res.text())
-               .then(res => console.log(res))
+            axios.delete('http://localhost:9005/api/' + id);
 
             show_alerta('Cliente Eliminado', 'success')
             getCustomers();

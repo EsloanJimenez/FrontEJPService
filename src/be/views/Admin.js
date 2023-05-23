@@ -14,7 +14,7 @@ import '../../css/register.css'
 import '../../css/buttons.css'
 import '../../css/animaciones.css'
 import { ViewAdmin } from "../components/ViewAdmin"
-import {Searcher} from "../components/Searcher"
+import { Searcher } from "../components/Searcher"
 import { RegisterAdmin } from "../components/RegisterAdmin"
 
 export const Admin = () => {
@@ -93,32 +93,27 @@ export const Admin = () => {
       else {
          if (compare) {
             if (operation === 1) {
-               parameters = { photo: photo.trim(), userName: userName.trim(), password: passwordHash.trim(), roll: roll.trim() };
+               axios.post(url, {
+                  photo: photo.trim(),
+                  userName: userName.trim(),
+                  password: passwordHash.trim(),
+                  roll: roll.trim()
+               }).then(res => {
 
-               const requestInit = {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(parameters)
-               }
+                  show_alerta('Administrador Registrado', 'success');
 
-               fetch(url, requestInit)
-                  .then(res => res.text())
-                  .then(res => {
+                  if (res.data === 'success') {
+                     document.querySelector('#photo').value = null;
 
-                     show_alerta('Administrador Registrado', 'success');
+                     setPhoto(null);
 
-                     if (res === 'success') {
-                        document.querySelector('#photo').value = null;
-
-                        setPhoto(null);
-
-                        closeClient();
-                        getAdmins();
-                     }
-                  })
+                     closeClient();
+                     getAdmins();
+                  }
+               })
 
             } else if (operation === 2) {
-               parameters = { idAdmin: ids, photo: photo.trim(), userName: userName.trim(), password: passwordHash.trim(), roll: roll.trim() };
+               parameters = {};
 
                const requestInit = {
                   method: 'PUT',
@@ -126,20 +121,25 @@ export const Admin = () => {
                   body: JSON.stringify(parameters)
                }
 
-               fetch('http://localhost:9005/api/updateAdmin/' + ids, requestInit)
-                  .then(res => res.text())
-                  .then(res => {
+               axios.put('http://localhost:9005/api/updateAdmin/' + ids, {
+                  idAdmin: ids,
+                  photo: photo.trim(),
+                  userName: userName.trim(),
+                  password: passwordHash.trim(),
+                  roll: roll.trim()
+               }).then(res => {
 
-                     show_alerta('Administrador Actualizado', 'success');
-                     if (res === 'admin updated!') {
-                        document.querySelector('#photo').value = null;
+                  show_alerta('Administrador Actualizado', 'success');
 
-                        setPhoto(null);
+                  if (res.data === 'admin updated!') {
+                     document.querySelector('#photo').value = null;
 
-                        closeClient();
-                        getAdmins();
-                     }
-                  })
+                     setPhoto(null);
+
+                     closeClient();
+                     getAdmins();
+                  }
+               })
             }
          } else {
             show_alerta('Los campos de la contraseña no son iguales', 'warning');
@@ -156,13 +156,7 @@ export const Admin = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if (result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
-
-            fetch('http://localhost:9005/api/deleteAdmin/' + id, requestInit)
-               .then(res => res.text())
-               .then(res => console.log(res))
+            axios.delete('http://localhost:9005/api/deleteAdmin/' + id);
 
             show_alerta('Administrador Eliminado', 'success')
             getAdmins();
@@ -179,7 +173,7 @@ export const Admin = () => {
          <div className="container-table">
             <div className='header'>
                <button name="newClient" id="addRegister" className="btn-primary" onClick={() => openModal(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
-            
+
                <Searcher
                   holder="Buscar Por Nombre"
                   setSearch={setSearch}
@@ -206,7 +200,7 @@ export const Admin = () => {
                validate={validate}
                btnSubmit={btnSubmit}
             />
-            
+
          </div>
       </div>
    )

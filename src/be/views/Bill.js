@@ -80,29 +80,24 @@ export const Bill = () => {
       if(description.trim() === '') show_alerta('Escribe la descripcion del gastop', 'warning')
       else if(date.trim() === '') show_alerta('Seleccione la fecha', 'warning')
       else {
-         if(operation === 1) {
-            parametros = {description: description.trim(),date:date.trim(), amount: amount.trim(), price: price.trim()};
-
-            const requestInit = {
-               method: 'POST',
-               headers: {'Content-Type': 'application/json'},
-               body: JSON.stringify(parametros)
-            }
-      
-            fetch(url, requestInit)
-            .then(res => res.text())
-            .then(res => {
+         if(operation === 1) {      
+            axios.post(url, {
+               description: description.trim(),
+               date:date.trim(), 
+               amount: amount.trim(), 
+               price: price.trim()
+            }).then(res => {
                
                show_alerta('Gasto Registrado', 'success');
    
-               if(res == 'success') {
+               if(res.data === 'success') {
                   getBill();
                   closeClient();
                }
             })
 
          } else if(operation === 2) {
-            parametros = {idBill:ids, description:description.trim(),date:date.trim(), amount: amount,price: price};
+            parametros = {};
 
             const requestInit = {
                method: 'PUT',
@@ -110,13 +105,17 @@ export const Bill = () => {
                body: JSON.stringify(parametros)
             }
       
-            fetch(`${url}Update/${ids}`, requestInit)
-            .then(res => res.text())
-            .then(res => {
+            axios.put(`${url}Update/${ids}`, {
+               idBill:ids, 
+               description:description.trim(),
+               date:date.trim(), 
+               amount: amount,
+               price: price
+            }).then(res => {
             
                show_alerta('Gasto Actualizado', 'success');
    
-               if(res == 'Bill updated!') {
+               if(res.data === 'Bill updated!') {
                   getBill();
                   closeClient();
                }
@@ -134,13 +133,7 @@ export const Bill = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if(result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
-      
-            fetch(`${url}Delete/${id}`, requestInit)
-            .then(res => res.text())
-            .then(res => console.log(res))
+            axios.delete(`${url}Delete/${id}`);
 
             show_alerta('Producto Eliminado', 'success')
             getBill();

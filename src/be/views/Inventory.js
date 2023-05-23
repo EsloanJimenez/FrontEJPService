@@ -145,48 +145,39 @@ export const Inventory = () => {
    }
 
    const validate = () => {
-      let parametros;
-
       if(product.trim() === '') show_alerta('Escribe el nombre del cliente', 'warning')
       else if(date.trim() === '') show_alerta('Seleccione la fecha', 'warning')
       else {
          if(operation === 1) {
-            parametros = {product: product.trim(),date:date.trim(),time: time.trim(),amount: amount.trim(), price: price.trim()};
-
-            const requestInit = {
-               method: 'POST',
-               headers: {'Content-Type': 'application/json'},
-               body: JSON.stringify(parametros)
-            }
-      
-            fetch(`${url}inventory`, requestInit)
-            .then(res => res.text())
-            .then(res => {
+            axios.post(`${url}inventory`, {
+               product: product.trim(),
+               date:date.trim(),
+               time: time.trim(),
+               amount: amount.trim(), 
+               price: price.trim()
+            }).then(res => {
                
                show_alerta('Producto Registrado', 'success');
    
-               if(res == 'success') {
+               if(res.data === 'success') {
                   getInventory();
                   closeClient();
                }
             })
 
          } else if(operation === 2) {
-            parametros = {idInventory:ids, product:product.trim(),date:date.trim(),time: time.trim(),amount: amount.trim(),price: price.trim()};
-
-            const requestInit = {
-               method: 'PUT',
-               headers: {'Content-Type': 'application/json'},
-               body: JSON.stringify(parametros)
-            }
-      
-            fetch(`${url}inventoryUpdate/${ids}`, requestInit)
-            .then(res => res.text())
-            .then(res => {
+            axios.put(`${url}inventoryUpdate/${ids}`, {
+               idInventory:ids, 
+               product:product.trim(),
+               date:date.trim(),
+               time: time.trim(),
+               amount: amount.trim(),
+               price: price.trim()
+            }).then(res => {
             
                show_alerta('Cliente Actualizado', 'success');
    
-               if(res == 'customer updated!') {
+               if(res.data === 'customer updated!') {
                   getInventory();
                   closeClient();
                }
@@ -204,13 +195,7 @@ export const Inventory = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if(result.isConfirmed) {
-            const requestInit = {
-               method: 'DELETE'
-            }
-      
-            fetch(`${url}inventoryDelete/${id}`, requestInit)
-            .then(res => res.text())
-            .then(res => console.log(res))
+            axios.delete(`${url}inventoryDelete/${id}`);
 
             show_alerta('Inventory Eliminado', 'success')
             getInventory();
