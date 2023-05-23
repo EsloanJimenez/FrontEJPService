@@ -13,6 +13,9 @@ import { show_alerta } from '../../js/Function'
 import '../../css/register.css'
 import '../../css/buttons.css'
 import { showHint } from '../../js/search'
+import { ViewBillTable } from '../components/ViewBillTable'
+import { Searcher } from '../components/Searcher'
+import { RegisterBill } from '../components/RegisterBill'
 
 export const Bill = () => {
    const url = 'http://localhost:9005/api/bill'
@@ -71,7 +74,7 @@ export const Bill = () => {
       }, 500)
    }
 
-   const validar = () => {
+   const validate = () => {
       let parametros;
 
       if(description.trim() === '') show_alerta('Escribe la descripcion del gastop', 'warning')
@@ -155,83 +158,32 @@ export const Bill = () => {
             <div className='header'>
                <button name="addRegister" id="addRegister" className="btn-register" onClick={() => openModal(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
 
-               <div>
-                  <input type="text" name="campo" id="campo" onChange={(e) => setSearch(e.target.value)} />
-                  <button id='buscar' onclick={showHint} >Buscar</button>
-               </div>
+               <Searcher
+                  holder='Buscar Por Descripcion'
+                  setSearch={setSearch}
+               />
             </div>
 
-            <div className='table'>
-               <table>
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>DESCRIPCION</th>
-                        <th>FECHA</th>
-                        <th>CANTIDAD</th>
-                        <th>PRECIO</th>
-                        <th>SUB TOTAL</th>
-                        <th>ACCIONES</th>
-                     </tr>
-                  </thead>
-                  <tbody id='listaCiudades'>
-                     {
-                        bill.map((reg) => (
-                           <tr key={reg.idBill}>
-                              <td>{reg.idBill}</td>
-                              <td>{reg.description}</td>
-                              <td>{reg.newDate}</td>
-                              <td>{reg.amount}</td>
-                              <td>{reg.price}</td>
-                              <td>{reg.subTo}</td>
-                              <td>
-                                 <button onClick={() => openModal(2, reg.idBill, reg.description, reg.date, reg.amount, reg.price)} className="btn btn-info">Editar</button>
-                                 <button onClick={() => deleteBill(reg.idBill, reg.description)} className="btn btn-delete">Eliminar</button>
-                              </td>
-                           </tr>
-                        ))
-                     }
-                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>TOTAL</td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
+            <ViewBillTable
+               search={search}
+               bill={bill}
+               openModal={openModal}
+               deleteBill={deleteBill}
+            />
 
-            {/* REGISTRAR CLIENTE  */}
-            <div className="container-form hide_font">
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>{title}</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                        <div className="mb-3">
-                           <label for="description" className="form-label">DESCRIPCION</label>
-                           <input type="text" className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
-                        </div>
-                        <div className="mb-3">
-                           <label for="date" className="form-label">Fecha</label>
-                           <input type="date" className="form-control" id="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="amount" className="form-label">Cantidad</label>
-                           <input type="number" className="form-control" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="price" className="form-label">Precio</label>
-                           <input type="number" className="form-control" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
-                        </div>
-                        <button onClick={() => validar()} className="btn btn-primary" tabindex="6">{btnSubmit}</button>
-                  </div>
-               </div>
-            </div>
+            <RegisterBill
+               title={title}
+               closeClient={closeClient}
+               description={description}
+               setDescription={setDescription}
+               setDate={setDate}
+               amount={amount}
+               setAmount={setAmount}
+               price={price}
+               setPrice={setPrice}
+               validate={validate}
+               btnSubmit={btnSubmit}
+            />
          </div>
       </div>
       

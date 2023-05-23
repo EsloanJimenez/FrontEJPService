@@ -12,7 +12,10 @@ import { show_alerta } from '../../js/Function'
 
 import '../../css/register.css'
 import '../../css/buttons.css'
-import { showHint } from '../../js/search'
+
+import { ViewTeamMemberTable } from '../components/ViewTeamMemberTable'
+import { Searcher } from '../components/Searcher'
+import { RegisterTeamMemberForm } from '../components/RegisterTeamMemberForm'
 
 export const RegisterTeamMember = () => {
    const url = 'http://localhost:9005/api/teamMember'
@@ -48,7 +51,7 @@ export const RegisterTeamMember = () => {
       setTeamMember(res.data);
    }
 
-   const openModal = (op, id, photo, lastName, firstName, idCard, cellPhone, sex, cluster, bankName, bankAccountType, accountNumber, status) => {
+   const openModal = (op, id, photo, lastName, firstName, idCard, sex, cellPhone, cluster, bankName, bankAccountType, accountNumber, status) => {
       const fund_new_client = document.querySelector(".container-form");
       fund_new_client.classList.remove('hide_font');
 
@@ -158,7 +161,7 @@ export const RegisterTeamMember = () => {
       }
    }
 
-   const deleteCustomer = (id, lastName) => {
+   const deleteTeamMember = (id, lastName) => {
       const MySwal = withReactContent(Swal);
 
       MySwal.fire({
@@ -191,149 +194,49 @@ export const RegisterTeamMember = () => {
             <div className='header'>
                <button name="addRegister" id="addRegister" className="btn-primary" onClick={() => openModal(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
 
-               <div>
-                  <input type="text" name="campo" id="campo" onChange={(e) => setSearch(e.target.value)} />
-                  <button id='buscar' onClick={showHint} >Buscar</button>
-               </div>
+               <Searcher
+                  holder='Buscar Por Nombre'
+                  setSearch={setSearch}
+               />
             </div>
 
-            {/* <span style="color: brown" id="txtInformacion"></span> */}
+            <ViewTeamMemberTable
+               search={search}
+               teamMember={teamMember}
+               openModal={openModal}
+               deleteTeamMember={deleteTeamMember}
+               FontAwesomeIcon={FontAwesomeIcon}
+               faPhone={faPhone}
+            />
 
-            <div className='table'>
-               <table>
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>FOTO</th>
-                        <th>NOMBRE</th>
-                        <th>APELLIDO</th>
-                        <th>CEDULA</th>
-                        <th>CELULAR</th>
-                        <th>SEXO</th>
-                        <th>GRUPO</th>
-                        <th>NOMBRE BANCO</th>
-                        <th>TIPO BANCO</th>
-                        <th>NUMERO DE CUENTA</th>
-                        <th>STATUS</th>
-                        <th>ACCIONES</th>
-                     </tr>
-                  </thead>
-                  <tbody id='teamMember'>
-                     {
-                        teamMember.map((tm, i) => (
-                           <tr key={i}>
-                              <td>{tm.idTeamMember}</td>
-                              <td>{<img src={`http://localhost:9005/${tm.photo}`} alt="imagen rota" />}</td>
-                              <td>{tm.lastName}</td>
-                              <td>{tm.firstName}</td>
-                              <td>{tm.idCard}</td>
-                              <td><FontAwesomeIcon icon={faPhone} /><a target='_blank' href={`https://api.whatsapp.com/send?phone=1${tm.cellPhone}`}>{tm.cellPhone}</a></td>
-                              <td>{tm.sex}</td>
-                              <td>{tm.cluster}</td>
-                              <td>{tm.bankName}</td>
-                              <td>{tm.bankAccountType}</td>
-                              <td>{tm.accountNumber}</td>
-                              <td>{tm.status}</td>
-                              <td>
-                                 <button onClick={() => openModal(2, tm.idTeamMember, tm.photo, tm.lastName, tm.firstName, tm.idCard, tm.sex, tm.cellPhone, tm.cluster, tm.bankName, tm.bankAccountType, tm.accountNumber, tm.status)} className="btn btn-info">Editar</button>
-                                 <button onClick={() => deleteCustomer(tm.idTeamMember, tm.lastName)} className="btn btn-delete">Eliminar</button>
-                              </td>
-                           </tr>
-                        ))
-                     }
-                  </tbody>
-               </table>
-            </div>
-
-            {/* REGISTRAR MIEMBRO DE EQUIPO  */}
-            <div className="container-form hide_font">
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>{title}</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                     <form action="http://localhost:9005/api/teamMember" method="post" enctype="multipart/form-data">
-                        <div className="mb-3">
-                           <label for="photo" className="form-label">Foto</label>
-                           <input type="file" className="form-control" id="photo" name="photo" onChange={(e) => setPhoto(e.target.files[0].name)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="lastName" className="form-label">Nombre</label>
-                           <input type="text" className="form-control" id="lastName" name="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="firstName" className="form-label">Apellido</label>
-                           <input type="text" className="form-control" id="firstName" name="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="idCard" className="form-label">Cedula</label>
-                           <input type="text" className="form-control" id="idCard" name="idCard" value={idCard} onChange={(e) => setIdCard(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="cellPhone" className="form-label">Celular</label>
-                           <input type="number" className="form-control" id="cellPhone" name="cellPhone" value={cellPhone} onChange={(e) => setCellPhone(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="sex" className="form-label">Sexo</label>
-                           <select className="form-control" id='sex' name='sex' onChange={(e) => setSex(e.target.value)}>
-                              <option value='null'>Seleccione el Sexo</option>
-                              <option value='Masculino'>Masculino</option>
-                              <option value='Femenino'>Femenino</option>
-                           </select>
-                        </div>
-                        <div className="mb-3">
-                           <label for="cluster" className="form-label">Grupo</label>
-                           <select className="form-control" id='cluster' name='cluster' onChange={(e) => setCluster(e.target.value)}>
-                              <option value="null">Seleccione El Grupo</option>
-                              <option value="Grupo A" >Grupo A</option>
-                              <option value="Grupo B">Grupo B</option>
-                              <option value="Grupo C">Grupo C</option>
-                              <option value="Grupo D">Grupo D</option>
-                              <option value="Arroye">Arroye</option>
-                              <option value="Cafeteria">Cafeteria</option>
-                           </select>
-                        </div>
-                        <div className="mb-3">
-                           <label for="bankName" className="form-label">Nombre Banco</label>
-                           <select className="form-control" id='bankName' name='bankName' onChange={(e) => setBankName(e.target.value)}>
-                              <option value="null">Seleccione El Nombre Del Banco</option>
-                              <option value="No Tiene">No Tiene</option>
-                              <option value="BHD Leon">BHD Leon</option>
-                              <option value="Billet">Billet</option>
-                              <option value="Banreservas">Banreservas</option>
-                              <option value="Popular">Popular</option>
-                              <option value="Asociacion Popular">Asociacion Popular</option>
-                              <option value="Promerica">Promerica</option>
-                           </select>
-                        </div>
-                        <div className="mb-3">
-                           <label for="bankAccountType" className="form-label">Tipo De Cuenta</label>
-                           <select className="form-control" id='bankAccountType' name='bankAccountType' onChange={(e) => setBankAccountType(e.target.value)}>
-                              <option value="null">Seleccione El Tipo De Cuenta</option>
-                              <option value="No Tiene">No Tiene</option>
-                              <option value="Ahorro">Ahorro</option>
-                              <option value="Corriente">Corriente</option>
-                           </select>
-                        </div>
-                        <div className="mb-3">
-                           <label for="accountNumber" className="form-label">Numero De Cuenta</label>
-                           <input type="number" className="form-control" id="accountNumber" name="accountNumber" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="status" className="form-label">Stado</label>
-                           <select className="form-control" id='status' name='status' onChange={(e) => setStatus(e.target.value)}>
-                              <option value='null'>Seleccione El Stado</option>
-                              <option value='Activo'>Activo</option>
-                              <option value='Inactivo'>Inactivo</option>
-                           </select>
-                        </div>
-                        <button onClick={() => validate()} className="btn btn-primary">{btnSubmit}</button>
-
-                     </form>
-                  </div>
-               </div>
-            </div>
+            <RegisterTeamMemberForm
+               title={title}
+               closeClient={closeClient}
+               setPhoto={setPhoto}
+               lastName={lastName}
+               setLastName={setLastName}
+               firstName={firstName}
+               setFirstName={setFirstName}
+               idCard={idCard}
+               setIdCard={setIdCard}
+               cellPhone={cellPhone}
+               setCellPhone={setCellPhone}
+               sex={sex}
+               setSex={setSex}
+               cluster={cluster}
+               setCluster={setCluster}
+               bankName={bankName}
+               setBankName={setBankName}
+               bankAccountType={bankAccountType}
+               setBankAccountType={setBankAccountType}
+               accountNumber={accountNumber}
+               setAccountNumber={setAccountNumber}
+               status={status}
+               setStatus={setStatus}
+               validate={validate}
+               btnSubmit={btnSubmit}
+            />
+            
          </div>
       </div>
 

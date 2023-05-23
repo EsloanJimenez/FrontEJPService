@@ -8,9 +8,10 @@
    justify-content: space-between;
 }
 .header #campo {
+   width: 300px;
    padding: 10px;
    border: 2px solid #0d6efd;
-   border-radius: 10px 0 0 10px;
+   border-radius: 10px;
    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
    font-size: 18px;
 }
@@ -40,10 +41,15 @@ table {
    background-color: #0d6efd;
    border-radius: 5px;
 }
+.tableSales {
+   height: 45vh;
+}
 table thead tr {
    background-color: #0d6efd;
    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
    color: #fff;
+   position:sticky;
+   top: 0;
 }
 table tr th, tr td {
    padding: 10px 0;
@@ -146,4 +152,16 @@ tbody tr:nth-child(odd) {
    padding-left: 5px;
    text-decoration: none;
    color: #000;
+}
+
+#listaCiudades img {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   transition: all ease 1s;
+}
+#listaCiudades img:hover {
+   transform: translate(100px, 100px)  scale(5.5);
+   border-radius: 10px;
+   z-index: 100;
 }

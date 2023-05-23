@@ -10,6 +10,9 @@ export const closeClient = () => {
    const fundWaiterEvent = document.querySelector(".waiterEvent");
    fundWaiterEvent.classList.add('hide_font');
 
+   const fundWaiterPay = document.querySelector(".waiterPay");
+   fundWaiterPay.classList.add('hide_font');
+
    const infoEvent = document.querySelector(".infoEvent");
    infoEvent.classList.add('hide_font');
 }

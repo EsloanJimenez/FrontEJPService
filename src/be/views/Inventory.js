@@ -17,6 +17,9 @@ import { TotalSales } from '../components/TotalSales'
 import { TotalBill } from '../components/TotalBill'
 import { TotalPaymentWaiter } from '../components/TotalPaymentWaiter'
 import { Activos } from '../components/Activos'
+import { ViewProductTable } from '../components/ViewProductTable'
+import { Searcher } from '../components/Searcher'
+import { RegisterProduct } from '../components/RegisterProduct'
 
 export const Inventory = () => {
    const url = 'http://localhost:9005/api/'
@@ -95,8 +98,6 @@ export const Inventory = () => {
       valueSubTotal.push(dollarSubTotal);
    }
 
-
-
    const getInventory = async () => {
       const res = await axios(`${url}inventory`);
       setInventory(res.data);
@@ -143,7 +144,7 @@ export const Inventory = () => {
       }, 500)
    }
 
-   const validar = () => {
+   const validate = () => {
       let parametros;
 
       if(product.trim() === '') show_alerta('Escribe el nombre del cliente', 'warning')
@@ -227,48 +228,20 @@ export const Inventory = () => {
             <div className='header'>
                <button name="addRegister" id="addRegister" className="btn-register" onClick={() => openModal(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
 
-               <div>
-                  <input type="text" name="campo" id="campo" onChange={(e) => setSearch(e.target.value)} />
-                  <button id='buscar' onclick={showHint} >Buscar</button>
-               </div>
+               <Searcher
+                  holder='Buscar Por Producto'
+                  setSearch={setSearch}
+               />
             </div>
 
-            <div className='table'>
-               <table>
-                  <thead>
-                     <tr><th colspan="8">PRODUCTOS</th></tr>
-                     <tr>
-                        <th>ID</th>
-                        <th>PRODUCTO</th>
-                        <th>FECHA</th>
-                        <th>HORA</th>
-                        <th>CANTIDAD</th>
-                        <th>PRECIO</th>
-                        <th>SUB TOTAL</th>
-                        <th>ACCIONES</th>
-                     </tr>
-                  </thead>
-                  <tbody id='listaCiudades'>
-                     {
-                        inventory.map((reg, i) => (
-                           <tr key={reg.idInventory}>
-                              <td>{reg.idInventory}</td>
-                              <td>{reg.product}</td>
-                              <td>{reg.newDate}</td>
-                              <td>{reg.time}</td>
-                              <td>{reg.amount}</td>
-                              <td>{valuePrice[i]}</td>
-                              <td>{valueSubTotal[i]}</td>
-                              <td>
-                                 <button onClick={() => openModal(2, reg.idInventory, reg.product, reg.date, reg.time, reg.amount, reg.price)} className="btn btn-info">Editar</button>
-                                 <button onClick={() => deleteInventory(reg.idInventory, reg.product)} className="btn btn-delete">Eliminar</button>
-                              </td>
-                           </tr>
-                        ))
-                     }
-                  </tbody>
-               </table>
-            </div>
+            <ViewProductTable
+               search={search}
+               inventory={inventory}
+               openModal={openModal}
+               deleteInventory={deleteInventory}
+               valuePrice={valuePrice}
+               valueSubTotal={valueSubTotal}
+            />
 
             <div className='container'>
                <TotalSales totalS={salesTotal} />
@@ -282,37 +255,20 @@ export const Inventory = () => {
             </div>
 
             {/* REGISTRAR PRODUCTO  */}
-            <div className="container-form hide_font">
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>{title}</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                        <div className="mb-3">
-                           <label for="product" className="form-label">Nombre Producto</label>
-                           <input type="text" className="form-control" id="product" name="product" value={product} onChange={(e) => setProduct(e.target.value)}/>
-                        </div>
-                        <div className="mb-3">
-                           <label for="date" className="form-label">Fecha</label>
-                           <input type="date" className="form-control" id="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="time" class="form-label">Hora</label>
-                           <input type="time" class="form-control" id="time" name="time" value={time} onChange={(e) => setTime(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="amount" className="form-label">Cantidad</label>
-                           <input type="number" className="form-control" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="price" className="form-label">Precio</label>
-                           <input type="number" className="form-control" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
-                        </div>
-                        <button onClick={() => validar()} className="btn btn-primary" tabindex="6">{btnSubmit}</button>
-                  </div>
-               </div>
-            </div>
+            <RegisterProduct
+               title={title}
+               closeClient={closeClient}
+               product={product}
+               setProduct={setProduct}
+               setDate={setDate}
+               time={time}
+               setTime={setTime}
+               amount={amount}
+               price={price}
+               setPrice={setPrice}
+               validate={validate}
+               btnSubmit={btnSubmit}
+            />
          </div>
       </div>
       

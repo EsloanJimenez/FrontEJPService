@@ -14,8 +14,14 @@ import '../../css/register.css'
 import '../../css/buttons.css'
 import '../../css/modal.css'
 
-import { showHint } from '../../js/search'
-import { TotalSales } from '../components/TotalSales'
+import { ModalTeamAssistance } from '../components/ModalTeamAssistance'
+import { ModalInfoEvent } from '../components/ModalInfoEvent'
+import { ViewSalesTable } from '../components/ViewSalesTable'
+import { ViewWaiterToPay } from '../components/ViewWaiterToPay'
+import { RegisterSales } from '../components/RegisterSales'
+import { RegisterWaiterEvent } from '../components/RegisterWaiterEvent'
+import { UpdateWaiterEvent } from '../components/UpdateWaiterEvent'
+import { Searcher } from '../components/Searcher'
 
 export const Sales = () => {
    const url = 'http://localhost:9005/api/'
@@ -25,9 +31,11 @@ export const Sales = () => {
    const [customer, setCustomer] = useState([]);
    const [teamMember, setTeamMember] = useState([]);
    const [paymentWaiter, setPaymentWaiter] = useState([]);
+   const [waiterToPay, setWaiterToPay] = useState([]);
 
    const [ids, setIds] = useState('');
    const [description, setDescription] = useState('');
+   const [nameCustomer, setNameCustomer] = useState('');
    const [idCustomers, setIdCustomers] = useState('');
    const [date, setDate] = useState('');
    const [time, setTime] = useState('');
@@ -41,13 +49,16 @@ export const Sales = () => {
 
    const [idSales, setIdSales] = useState();
    const [idTeamMember, setIdTeamMember] = useState();
+   const [lastName, setLastName] = useState();
+   const [firstName, setFirstName] = useState();
    const [status, setStatus] = useState();
    const [payment, setPayment] = useState();
 
-   const [search, setSearch] = useState('');
+   const [searchCustomer, setSearchCustomer] = useState('');
+   const [searchWaiter, setSearchWaiter] = useState('');
 
-   const paymentWaiterTotal = 0;
-   let eventProfit;
+   const [paymentWaiterTotal, setPaymentWaiterTotal] = useState();
+   const [eventProfit, setEventProfit] = useState();
 
    useEffect(() => {
       getSales();
@@ -69,9 +80,12 @@ export const Sales = () => {
 
       const tm = await axios(`${url}teamMember`);
       setTeamMember(tm.data);
+
+      const wtp = await axios(`${url}waiterToPay`);
+      setWaiterToPay(wtp.data);
    }
 
-   const addEvent = (op, id, description, idCustomers, date, time, amount, price, comment) => {
+   const addEvent = (op, id, description, nameCustomer, idCustomers, date, time, amount, price, comment) => {
       const fund_new_client = document.querySelector(".container-form");
       fund_new_client.classList.remove('hide_font');
 
@@ -94,6 +108,7 @@ export const Sales = () => {
          setBtnSubmit('Actualizar');
          setIds(id);
          setDescription(description);
+         setNameCustomer(nameCustomer);
          setIdCustomers(idCustomers);
          setDate(date);
          setTime(time);
@@ -105,6 +120,49 @@ export const Sales = () => {
       window.setTimeout(() => {
          document.getElementById('description').focus();
       }, 500)
+   }
+
+   const waiterPay = (id, lastName, firstName, idSales, description, date, time, payment, status) => {
+      const fund_new_client = document.querySelector(".waiterPay");
+      fund_new_client.classList.remove('hide_font');
+
+      setTitle('Actualizar Evento Por Pagar');
+      setBtnSubmit('Actualizar');
+
+      setIds(id);
+      setLastName(lastName);
+      setFirstName(firstName);
+      setIdSales(idSales);
+      setDescription(description);
+      setDate(date);
+      setTime(time);
+      setPayment(payment);
+      setStatus(status);
+
+      const infoEvent = document.querySelector(".infoEvent");
+      infoEvent.classList.add('hide_font');
+   }
+
+   const updateWaiterPay = () => {
+      let parameters = { idPaymentWaiter: ids, idSales: idSales, date: date, time: time, payment: payment, status: status };
+
+      const requestInit = {
+         method: 'PUT',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(parameters)
+      }
+
+      fetch(`${url}paymentWaiterUpdated/${ids}`, requestInit)
+         .then(res => res.text())
+         .then(res => {
+
+            show_alerta('Pago Camarero Actualizado', 'success');
+
+            if (res == 'Payment Waiter Updated!') {
+               getSales();
+               closeClient();
+            }
+         })
    }
 
    const addWaiter = () => {
@@ -135,10 +193,9 @@ export const Sales = () => {
       const pwt = await axios(`${url}paymentWaiterTotal/${idSales}`);
       let payWai = pwt.data[0].pago;
 
-      paymentWaiterTotal = payWai;
+      setPaymentWaiterTotal(payWai);
 
-      eventProfit = total - paymentWaiterTotal;
-
+      setEventProfit(total - paymentWaiterTotal);
    }
 
    const validar = (op) => {
@@ -150,7 +207,7 @@ export const Sales = () => {
          else if (amount.trim() === '') show_alerta('Ingrese la cantidad de camareros', 'warning')
          else if (price.trim() === '') show_alerta('Ingrese el precio por camarero', 'warning')
          else {
-            if (operation === 1) {
+            if (operation == 1) {
                parameters = { description: description.trim(), idCustomers: idCustomers.trim(), date: date.trim(), time: time.trim(), amount: amount.trim(), price: price.trim(), comment: comment.trim() };
 
                const requestInit = {
@@ -171,8 +228,8 @@ export const Sales = () => {
                      }
                   })
 
-            } else if (operation === 2) {
-               parameters = { id_sales: ids, description: description, idCustomers: idCustomers, date: date, time: time, amount: amount, price: price, comment: comment };
+            } else if (operation == 2) {
+               parameters = { idSales: ids, description: description, idCustomers: idCustomers, date: date, time: time, amount: amount, price: price, comment: comment };
 
                const requestInit = {
                   method: 'PUT',
@@ -184,7 +241,7 @@ export const Sales = () => {
                   .then(res => res.text())
                   .then(res => {
 
-                     show_alerta('Venta Actualizado', 'success');
+                     show_alerta('Venta Actualizada', 'success');
 
                      if (res == 'sales updated!') {
                         closeClient();
@@ -304,283 +361,118 @@ export const Sales = () => {
                <button name="addRegister" id="addRegister" className="btn-primary" onClick={() => addEvent(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
                <button name="addWaiter" id="addWaiter" className="btn-secondary" onClick={() => addWaiter()}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
 
-               <div>
-                  <input type="text" name="campo" id="campo" onChange={(e) => setSearch(e.target.value)} />
-                  <button id='buscar' onclick={showHint} >Buscar</button>
-               </div>
+               <Searcher
+                  holder='Buscar Por Nombre Del Cliente'
+                  setSearch={setSearchCustomer}
+               />
+
+               <Searcher
+                  holder='Buscar Por Nombre Del Camarero'
+                  setSearch={setSearchWaiter}
+               />
             </div>
 
-            <div className='table'>
-               <table>
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>DESCRIPCION</th>
-                        <th>CLIENTE</th>
-                        <th>FECHA</th>
-                        <th>HORA</th>
-                        <th>CANTIDAD</th>
-                        <th>PRECIO</th>
-                        <th>TOTAL</th>
-                        <th>ACCIONES</th>
-                     </tr>
-                  </thead>
-                  <tbody id='listaCiudades'>
-                     {
-                        sales.map((reg, i) => (
-                           <tr key={reg.idSales} title={reg.comment}>
-                              <td>{i + 1}</td>
-                              <td>{reg.description}</td>
-                              <td>{reg.name}</td>
-                              <td>{reg.newDate}</td>
-                              <td>{reg.time}</td>
-                              <td>{reg.amount}</td>
-                              <td>{reg.price}</td>
-                              <td>{reg.total}</td>
-                              <td>
-                                 <button onClick={() => modalInfo(reg.idSales, reg.description, reg.name, reg.newDate, reg.time, reg.amount, reg.price, reg.total, reg.comment)} className='btn btn-info'>Info</button>
-                                 <button onClick={() => addEvent(2, reg.idSales, reg.description, reg.customers, reg.date, reg.time, reg.amount, reg.price, reg.comment)} className="btn btn-update">Editar</button>
-                                 <button onClick={() => deleteSales(reg.idSales, reg.description)} className="btn btn-delete">Eliminar</button>
-                              </td>
-                           </tr>
-                        ))
-                     }
-                  </tbody>
-               </table>
-            </div>
+            <ViewSalesTable
+               sales={sales}
+               search={searchCustomer}
+               modalInfo={modalInfo}
+               addEvent={addEvent}
+               deleteSales={deleteSales}
+            />
+
+            <ViewWaiterToPay
+               waiterToPay={waiterToPay}
+               search={searchWaiter}
+               waiterPay={waiterPay}
+               deleteSales={deleteSales}
+            />
 
             {/* REGISTRAR VENTA  */}
-            <div className="container-form hide_font">
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>{title}</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                     <div className="mb-3">
-                        <label for="description" className="form-label">Descripcion</label>
-                        <textarea rows="5" cols="30" placeholder='Descripcion' className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-                     </div>
-                     <div className="mb-3">
-                        <label for="idCustomers" className="form-label">Cliente</label>
-                        <select className="form-control" id="idCustomers" name="idCustomers" onChange={(e) => setIdCustomers(e.target.value)}>
-                           <option value="0">Seleccione El Cliente</option>
-                           {
-                              customer.map((teamList) =>
-                                 <option key={teamList.idCustomers} value={teamList.idCustomers}>{teamList.name}</option>
-                              )
-                           }
-                        </select>
-                     </div>
-                     <div className="mb-3">
-                        <label for="date" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="time" className="form-label">Hora</label>
-                        <input type="time" className="form-control" id="time" name="time" value={time} onChange={(e) => setTime(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="amount" className="form-label">Cantidad</label>
-                        <input type="number" className="form-control" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="tpriceime" className="form-label">Precio</label>
-                        <input type="number" className="form-control" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="time" className="form-label">Comentario</label>
-                        <textarea className='form-control' id='comment' name='comment' value={comment} rows="5" cols="30" placeholder='Comentario' maxLength='200' onChange={(e) => setComment(e.target.value)}></textarea>
-                     </div>
-                     <button onClick={() => validar(1)} className="btn btn-primary" >{btnSubmit}</button>
-                  </div>
-               </div>
-            </div>
+            <RegisterSales
+               title={title}
+               closeClient={closeClient}
+               customer={customer}
+               nameCustomer={nameCustomer}
+               idCustomers={idCustomers}
+               description={description}
+               time={time}
+               amount={amount}
+               price={price}
+               comment={comment}
+               setDescription={setDescription}
+               setIdCustomers={setIdCustomers}
+               setDate={setDate}
+               setTime={setTime}
+               setAmount={setAmount}
+               setPrice={setPrice}
+               setComment={setComment}
+               validar={validar}
+               btnSubmit={btnSubmit}
+            />
 
             {/* REGISTRAR CAMARERO AL EVENTO  */}
-            <div className="waiterEvent container-form hide_font">
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>{title}</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                     <div className="mb-3">
-                        <label for="waiter" className="form-label">Camarero</label>
-                        <select className='form-control' id='idTeamMember' name='id_team_memeber' onChange={(e) => setIdTeamMember(e.target.value)}>
-                           <option value="0">Seleccione El Camarero</option>
-                           {
-                              teamMember.map((reg, i) =>
-                                 <option key={i} value={reg.idTeamMember}>{reg.lastName} {reg.firstName}</option>
-                              )
-                           }
-                        </select>
-                     </div>
-                     <div className="mb-3">
-                        <label for="date" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="date" name="date" onChange={(e) => setDate(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="time" className="form-label">Hora</label>
-                        <input type="time" className="form-control" id="time" name="time" onChange={(e) => setTime(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="idSales" className="form-label">Evento</label>
-                        <select className="form-control" id="idSales" name="idSales" onChange={(e) => setIdSales(e.target.value)}>
-                           <option value="0">Seleccione El Evento</option>
-                           {
-                              event.map((reg) =>
-                                 <option key={reg.idSales} value={reg.idSales}>{reg.description}</option>
-                              )
-                           }
-                        </select>
-                     </div>
-                     <div className="mb-3">
-                        <label for="payment" className="form-label">Pago</label>
-                        <input type="number" className="form-control" id="payment" name="payment" onChange={(e) => setPayment(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="status" className="form-label">Stado</label>
-                        <select className="form-control" id="status" name="status" onChange={(e) => setStatus(e.target.value)}>
-                           <option value="null">Seleccione El Stado</option>
-                           <option value="Por Pagar">Por Pagar</option>
-                           <option value="Pagado">Pagado</option>
-                        </select>
-                     </div>
-                     <button onClick={() => validar(2)} className="btn btn-primary" >{btnSubmit}</button>
-                  </div>
-               </div>
-            </div>
+            <RegisterWaiterEvent
+               title={title}
+               closeClient={closeClient}
+               teamMember={teamMember}
+               event={event}
+               setIdTeamMember={setIdTeamMember}
+               setDate={setDate}
+               setTime={setTime}
+               setIdSales={setIdSales}
+               setPayment={setPayment}
+               setStatus={setStatus}
+               validar={validar}
+               btnSubmit={btnSubmit}
+            />
 
             {/* INFORMACION DEL EVENTO */}
             <div className='infoEvent container-form hide_font'>
-               <div className="tableShort">
-                  <table>
-                     <thead>
-                        <tr><th colSpan={7}>INFORMACION DEL EVENTO <button className='closeClient right' onClick={closeClient}>X</button></th></tr>
-                        <tr>
-                           <th>DESCRIPCION</th>
-                           <th>CLIENTE</th>
-                           <th>FECHA</th>
-                           <th>HORA</th>
-                           <th>CANTIDAD</th>
-                           <th>PRECIO</th>
-                           <th>TOTAL</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>{description}</td>
-                           <td>{idCustomers}</td>
-                           <td>{date}</td>
-                           <td>{time}</td>
-                           <td>{amount}</td>
-                           <td>{price}</td>
-                           <td>{total}</td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
+               <ModalInfoEvent
+                  description={description}
+                  idCustomers={idCustomers}
+                  date={date}
+                  time={time}
+                  amount={amount}
+                  price={price}
+                  total={total}
+                  closeClient={closeClient}
+               />
 
-               <div className='tableSmall'>
-                  <table>
-                     <thead>
-                        <tr>
-                           <th colSpan={7}>
-                              MIEMBROS DE EQUIPO QUE ASISTIERON
-                              <button className='closeClient right' onClick={closeClient}>X</button>
-                           </th>
-                        </tr>
-                        <tr>
-                           <th>ID</th>
-                           <th>NOMBRE</th>
-                           <th>APELLIDO</th>
-                           <th>PAGO</th>
-                           <th>STATUS</th>
-                           <th>ACCIONES</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {
-                           paymentWaiter.map((reg, i) =>
-                              <tr key={i}>
-                                 <td>{i + 1}</td>
-                                 <td>{reg.lastName}</td>
-                                 <td>{reg.firstName}</td>
-                                 <td>{reg.payment}</td>
-                                 <td>{reg.status}</td>
-                                 <td>
-                                    <button onClick={() => updateWaiter(reg.idPaymentWaiter, reg.date, reg.time, reg.payment, reg.status)} className="btn btn-update">Editar</button>
-                                    <button onClick={() => deleteWaiter(reg.idPaymentWaiter, reg.lastName, reg.firstName)} className="btn btn-delete">Eliminar</button>
-                                 </td>
-                              </tr>
-                           )
-                        }
-                        <tr>
-                           <td></td>
-                           <td></td>
-                           <td><strong><i>PAGO DEL CLIENTE</i></strong></td>
-                           <td><strong><i>{total}</i></strong></td>
-                        </tr>
-                        <tr>
-                           <td></td>
-                           <td></td>
-                           <td><strong><i>PAGO DEL CAMARERO</i></strong></td>
-                           <td><strong><i>{paymentWaiterTotal}</i></strong></td>
-                        </tr>
-                        <tr>
-                           <td></td>
-                           <td></td>
-                           <td><strong><i>GANANCIA DEL EVENTO</i></strong></td>
-                           <td><strong><i>{eventProfit}</i></strong></td>
-                        </tr>
-                     </tbody>
-                  </table>
-               </div>
+               {/* MIEMBROS DE EQUIPOS QUE ASISTIERON AL EVENTO */}
+               <ModalTeamAssistance
+                  paymentWaiter={paymentWaiter}
+                  closeClient={closeClient}
+                  waiterPay={waiterPay}
+                  total={total}
+                  paymentWaiterTotal={paymentWaiterTotal}
+                  eventProfit={eventProfit}
+               />
             </div>
 
-            <div className='updateWaiter container-form hide_font'>
-               <div className="card">
-                  <div className="card-header">
-                     <span className='title'>Actualizar Camarero</span>
-                     <button className='closeClient' onClick={closeClient}>X</button>
-                  </div>
-                  <div className="card-body">
-                     <div className="mb-3">
-                        <label for="waiter" className="form-label">Nombre</label>
-                        <select className='form-control' id='idTeamMember' name='id_team_memeber' onChange={(e) => setIdTeamMember(e.target.value)}>
-                           <option value="0">Seleccione El Camarero</option>
-                           {
-                              teamMember.map((reg, i) =>
-                                 <option key={i} value={reg.idTeamMember}>{reg.lastName} {reg.firstName}</option>
-                              )
-                           }
-                        </select>
-                     </div>
-                     <div className="mb-3">
-                        <label for="date" class="form-label">Fecha</label>
-                        <input type="date" class="form-control" id="date" name="date" onChange={(e) => setDate(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="time" className="form-label">Hora</label>
-                        <input type="time" className="form-control" id="time" name="time" onChange={(e) => setTime(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="payment" className="form-label">Pago</label>
-                        <input type="number" className="form-control" id="payment" name="payment" onChange={(e) => setPayment(e.target.value)} />
-                     </div>
-                     <div className="mb-3">
-                        <label for="status" className="form-label">Stado</label>
-                        <select className="form-control" id="status" name="status" onChange={(e) => setStatus(e.target.value)}>
-                           <option value="null">Seleccione El Stado</option>
-                           <option value="Por Pagar">Por Pagar</option>
-                           <option value="Pagado">Pagado</option>
-                        </select>
-                     </div>
-                     <button onClick={() => validar(2)} className="btn btn-primary" >{btnSubmit}</button>
-                  </div>
-               </div>
-            </div>
+            {/* EDITAR CAMARERO DEL EVENTO  */}
+            <UpdateWaiterEvent
+               title={title}
+               closeClient={closeClient}
+               teamMember={teamMember}
+               event={event}
+               setIdTeamMember={setIdTeamMember}
+               ids={ids}
+               lastName={lastName}
+               firstName={firstName}
+               time={time}
+               idSales={idSales}
+               description={description}
+               payment={payment}
+               status={status}
+               updateWaiterPay={updateWaiterPay}
+               setDate={setDate}
+               setTime={setTime}
+               setIdSales={setIdSales}
+               setPayment={setPayment}
+               setStatus={setStatus}
+               btnSubmit={btnSubmit}
+            />
          </div>
       </div>
 

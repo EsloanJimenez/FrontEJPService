@@ -13,6 +13,9 @@ import { show_alerta } from '../../js/Function'
 import '../../css/register.css'
 import '../../css/buttons.css'
 import '../../css/animaciones.css'
+import { ViewAdmin } from "../components/ViewAdmin"
+import {Searcher} from "../components/Searcher"
+import { RegisterAdmin } from "../components/RegisterAdmin"
 
 export const Admin = () => {
    const url = 'http://localhost:9005/api/admin'
@@ -27,6 +30,8 @@ export const Admin = () => {
    const [title, setTitle] = useState([]);
    const [btnSubmit, setBtnSubmit] = useState('');
    const [operation, setOperation] = useState(1);
+
+   const [search, setSearch] = useState();
 
    useEffect(() => {
       getAdmins();
@@ -72,9 +77,10 @@ export const Admin = () => {
    }
 
    const validate = async () => {
+      let parameters;
+
       const bcryptjs = require('bcryptjs');
 
-      let parameters;
       const verifyPassword = document.querySelector('#verifyPassword').value;
       let passwordHash = await bcryptjs.hash(password, 8);
 
@@ -167,85 +173,40 @@ export const Admin = () => {
    }
 
    return (
-      <div>
+      <div className="container">
          <HeaderController />
 
          <div className="container-table">
             <div className='header'>
                <button name="newClient" id="addRegister" className="btn-primary" onClick={() => openModal(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
+            
+               <Searcher
+                  holder="Buscar Por Nombre"
+                  setSearch={setSearch}
+               />
             </div>
 
-            <div className='table'>
-               <table>
-                  <thead>
-                     <tr>
-                        <th>ID</th>
-                        <th>FOTO</th>
-                        <th>NOMBRE DE USUARIO</th>
-                        <th>CONTRASEÑA</th>
-                        <th>ROLL</th>
-                        <th>ACCIONES</th>
-                     </tr>
-                  </thead>
-                  <tbody id='listaCiudades'>
-                     {
-                        admins.map((reg) => (
-                           <tr key={reg.idAdmin}>
-                              <td>{reg.idAdmin}</td>
-                              <td>{<img src={`http://localhost:9005/${reg.photo}` } alt="imagen rota" />}</td>
-                              <td>{reg.userName}</td>
-                              <td>{reg.password}</td>
-                              <td>{reg.roll}</td>
-                              <td>
-                                 <button onClick={() => openModal(2, reg.idAdmin, reg.photo, reg.userName, reg.password, reg.roll)} className="btn btn-info">Editar</button>
-                                 <button onClick={() => deleteAdmin(reg.idAdmin, reg.userName)} className="btn btn-delete">Eliminar</button>
-                              </td>
-                           </tr>
-                        ))
-                     }
-                  </tbody>
-               </table>
-            </div>
+            <ViewAdmin
+               search={search}
+               admins={admins}
+               openModal={openModal}
+               deleteAdmin={deleteAdmin}
+            />
 
-            {/* REGISTRAR ADMINISTRADOR  */}
-            <div className="container-form hide_font">
-               <div className="card fadeUp">
-                  <form action="http://localhost:9005/api/admin" method="post" enctype="multipart/form-data">
-                     <div className="card-header">
-                        <span className='title'>{title}</span>
-                        <button className='closeClient' onClick={closeClient}>X</button>
-                     </div>
-                     <div className="card-body">
-                        <div className="mb-3">
-                           <label for="photo" className="form-label">Foto</label>
-                           <input type="file" className="form-control" id="photo" name="photo" onChange={(e) => setPhoto(e.target.files[0].name)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="userName" className="form-label">Nombre De Usuario</label>
-                           <input type="text" className="form-control" id="userName" name="userName" value={userName} onChange={(e) => setUserName(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="password" className="form-label">Contraseña</label>
-                           <input type="password" className="form-control" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        </div>
-                        <div className="mb-3">
-                           <label for="verifyPassword" className="form-label">Repetir Contraseña</label>
-                           <input type="password" className="form-control" id="verifyPassword" name="verifyPassword" />
-                        </div>
-                        <div className="mb-3">
-                           <label for="roll" className="form-label">Roll</label>
-                           <select className="form-control" id="roll" name="roll" onChange={(e) => setRoll(e.target.value)}>
-                              <option value="null">Seleccione El Roll</option>
-                              <option value="Admin">Admin</option>
-                              <option value="Contable">Contable</option>
-                              <option value="Organizador">Organizador</option>
-                           </select>
-                        </div>
-                        <button onClick={() => validate()} className="btn btn-primary" >{btnSubmit}</button>
-                     </div>
-                  </form>
-               </div>
-            </div>
+            <RegisterAdmin
+               title={title}
+               closeClient={closeClient}
+               setPhoto={setPhoto}
+               userName={userName}
+               setUserName={setUserName}
+               password={password}
+               setPassword={setPassword}
+               roll={roll}
+               setRoll={setRoll}
+               validate={validate}
+               btnSubmit={btnSubmit}
+            />
+            
          </div>
       </div>
    )

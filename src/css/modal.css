@@ -17,3 +17,10 @@
 .hide_font{
    display: none;
 }
+
+.payable {
+   color: red;
+}
+.pay {
+   color: green;
+}
