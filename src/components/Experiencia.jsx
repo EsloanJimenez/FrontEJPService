@@ -1,6 +1,6 @@
 import '../css/experiencia.css'
 
-export const Experiencia = () => {
+export const Experiencia = ({sales, teamMemberAsset}) => {
    return (
       <section id="experiencia">
          <article id="autoBiografia" className="hide">
@@ -16,17 +16,17 @@ export const Experiencia = () => {
 
          <article id="elojios_principales">
          <div className="elojios hide">
-            <h1 className="fadeUp">0</h1>
-            <p className="fadeDown">Años de experiencia</p>
+            <h1 className="fadeUp">10</h1>
+            <p className="fadeDown">Meses De Experiencia</p>
          </div>
 
          <div className="elojios hide">
-            <h1 className="fadeUp">121</h1>
+            <h1 className="fadeUp">{teamMemberAsset}</h1>
             <p className="fadeDown">Personal</p>
          </div>
 
          <div className="elojios hide">
-            <h1 className="fadeUp">60</h1>
+            <h1 className="fadeUp">{sales}</h1>
             <p className="fadeDown">Eventos realizados</p>
          </div>
          </article>

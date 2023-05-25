@@ -144,22 +144,25 @@ export const Sales = () => {
    }
 
    const updateWaiterPay = () => {
-      axios.put(`${url}paymentWaiterUpdated/${ids}`, {
-         idPaymentWaiter: ids,
-         idSales: idSales,
-         date: date,
-         time: time,
-         payment: payment,
-         status: status
-      }).then(res => {
+      if(date.length > 10) show_alerta('La Fecha es incorrecta, seleccione de nuevo', 'warning');
+      else {
+         axios.put(`${url}paymentWaiterUpdated/${ids}`, {
+            idPaymentWaiter: ids,
+            idSales: idSales,
+            date: date,
+            time: time,
+            payment: payment,
+            status: status
+         }).then(res => {
 
-         show_alerta('Pago Camarero Actualizado', 'success');
+            show_alerta('Pago Camarero Actualizado', 'success');
 
-         if (res.data === 'Payment Waiter Updated!') {
-            getSales();
-            closeClient();
-         }
-      })
+            if (res.data === 'Payment Waiter Updated!') {
+               getSales();
+               closeClient();
+            }
+         })
+      }
    }
 
    const addWaiter = () => {
@@ -306,7 +309,7 @@ export const Sales = () => {
       });
    }
 
-   const deleteWaiter = (id, lastName, firstName) => {
+   const deleteWaiter = (id, lastName, firstName, descripcion) => {
       const MySwal = withReactContent(Swal);
 
       MySwal.fire({
@@ -317,7 +320,7 @@ export const Sales = () => {
          if (result.isConfirmed) {
             axios.delete(`${url}paymentWaiterDelete/${id}`);
 
-            show_alerta('Venta Eliminada', 'success');
+            show_alerta(`${lastName} ${firstName} fue eliminada del evento '${descripcion}'`, 'success');
             getSales();
          } else {
             show_alerta('El Camarero NO fue eliminada', 'info');
@@ -357,7 +360,7 @@ export const Sales = () => {
                waiterToPay={waiterToPay}
                search={searchWaiter}
                waiterPay={waiterPay}
-               deleteSales={deleteSales}
+               deleteWaiter={deleteWaiter}
             />
 
             {/* REGISTRAR VENTA  */}
@@ -433,6 +436,7 @@ export const Sales = () => {
                ids={ids}
                lastName={lastName}
                firstName={firstName}
+               date={date}
                time={time}
                idSales={idSales}
                description={description}

@@ -2,7 +2,7 @@
    width: 100%;
    height: 100vh;
    padding: 75px ;
-   border-bottom: 5px solid #355a65;
+   border-bottom: 5px solid #4c8292;
    display: flex;
    flex-direction: column;
 }
@@ -20,16 +20,16 @@
 }
 #experiencia #elojios_principales .elojios {
    width: 16vw;
-   border-bottom: 5px solid #355a65;
+   border-bottom: 5px solid #4c8292;
 }
 #experiencia #elojios_principales .elojios h1 {
    font-size: 5vw;
    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-   color: #355a65;
+   color: #4c8292;
 }
 #experiencia #elojios_principales .elojios p {
    margin-bottom: 25px;
    font-size: 1.5vw;
    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-   color: #355a65;
+   color: #4c8292;
 }

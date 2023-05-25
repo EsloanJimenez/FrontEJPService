@@ -1,4 +1,4 @@
-export const UpdateWaiterEvent = ({title, closeClient, setIdTeamMember, ids, lastName, firstName, teamMember, time, setDate, setTime, idSales, description, setIdSales,event, payment, setPayment, status, setStatus, updateWaiterPay, btnSubmit}) => {
+export const UpdateWaiterEvent = ({title, closeClient, setIdTeamMember, ids, lastName, firstName, teamMember, date, time, setDate, setTime, idSales, description, setIdSales,event, payment, setPayment, status, setStatus, updateWaiterPay, btnSubmit}) => {
    return (
       <div className="waiterPay container-form hide_font">
          <div className="card">
@@ -20,7 +20,7 @@ export const UpdateWaiterEvent = ({title, closeClient, setIdTeamMember, ids, las
                </div>
                <div className="mb-3">
                   <label htmlFor="date" className="form-label">Fecha</label>
-                  <input type="date" className="form-control" id="date" name="date" onChange={(e) => setDate(e.target.value)} />
+                  <input type="date" className="form-control" id="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
                </div>
                <div className="mb-3">
                   <label htmlFor="time" className="form-label">Hora</label>

@@ -29,7 +29,7 @@ export const Header = () => {
             <nav className="main">
                <ul>
                   <li><Link to="/">Inicio</Link></li>
-                  <li><FontAwesomeIcon icon={faAngleDown} /><a href="#">Servicios</a>
+                  <li>{/*<FontAwesomeIcon icon={faAngleDown} />*/}<a href="#">Servicios</a>
                      <ul className='sub-menu'>
                         <li><Link to="/views/waiter">Camareros</Link></li>
                         <li><Link to="/views/mixologist">Mixologos</Link></li>
@@ -39,7 +39,6 @@ export const Header = () => {
                   </li>
                   <li><Link to="/views/we">Nosotros</Link></li>
                   <li><Link to="/views/contact">Contacto</Link></li>
-                  <li><Link to="/be/views/panel">Back End</Link></li>
                 </ul>
             </nav>
          </header>

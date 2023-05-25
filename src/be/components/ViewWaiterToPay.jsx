@@ -1,4 +1,4 @@
-export const ViewWaiterToPay = ({ search, waiterToPay, waiterPay, deleteSales }) => {
+export const ViewWaiterToPay = ({ search, waiterToPay, waiterPay, deleteWaiter }) => {
    const results = waiterToPay.filter(value => value.lastName.toLowerCase().includes(search.toLowerCase())).map((reg, i) =>
       <tr key={i} title={reg.comment}>
          <td>{i + 1}</td>
@@ -13,7 +13,7 @@ export const ViewWaiterToPay = ({ search, waiterToPay, waiterPay, deleteSales })
          <td className={reg.status ? 'pay' : 'payable'}>{reg.status ? 'Pagado' : 'Por Pagar'}</td>
          <td>
             <button onClick={() => waiterPay(reg.idPaymentWaiter, reg.lastName, reg.firstName, reg.idSales, reg.description, reg.date, reg.time, reg.payment, reg.status)} className="btn btn-update">Editar</button>
-            <button onClick={() => deleteSales(reg.idPaymentWaiter, reg.lastName)} className="btn btn-delete">Eliminar</button>
+            <button onClick={() => deleteWaiter(reg.idPaymentWaiter, reg.lastName, reg.firstName, reg.description)} className="btn btn-delete">Eliminar</button>
          </td>
       </tr>
    )
