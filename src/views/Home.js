@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Home = () => {
-   const url = 'http://localhost:9005/api/';
+   const url = 'https://apiejpservice.onrender.com/api/';
 
    const [sales, setSales] = useState([]);
    const [teamMemberAsset, setTeamMemberAsset] = useState([]);
