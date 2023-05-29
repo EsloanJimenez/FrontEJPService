@@ -18,7 +18,7 @@ import { Searcher } from '../components/Searcher'
 import { RegisterTeamMemberForm } from '../components/RegisterTeamMemberForm'
 
 export const RegisterTeamMember = () => {
-   const url = 'http://localhost:9005/api/teamMember'
+   const url = 'https://apiejpservice.onrender.com/api/teamMember'
 
    const [teamMember, setTeamMember] = useState([]);
    const [ids, setIds] = useState('');

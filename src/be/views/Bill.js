@@ -18,7 +18,7 @@ import { Searcher } from '../components/Searcher'
 import { RegisterBill } from '../components/RegisterBill'
 
 export const Bill = () => {
-   const url = 'http://localhost:9005/api/bill'
+   const url = 'https://apiejpservice.onrender.com/api/bill'
 
    const [bill, setBill] = useState([]);
    const [ids, setIds] = useState('');

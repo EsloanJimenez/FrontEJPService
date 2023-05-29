@@ -7,7 +7,7 @@ export const RegisterTeamMemberForm = ({title, closeClient, setPhoto, lastName, 
                <button className='closeClient' onClick={closeClient}>X</button>
             </div>
             <div className="card-body">
-               <form action="http://localhost:9005/api/teamMember" method="post" enctype="multipart/form-data">
+               <form action="https://apiejpservice.onrender.com/api/teamMember" method="post" enctype="multipart/form-data">
                   <div className="mb-3">
                      <label for="photo" className="form-label">Foto</label>
                      <input type="file" className="form-control" id="photo" name="photo" onChange={(e) => setPhoto(e.target.files[0].name)} />

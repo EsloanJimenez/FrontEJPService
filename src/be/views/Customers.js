@@ -18,7 +18,7 @@ import { ViewCustomerTable } from '../components/ViewCustomerTable'
 import { RegisterCustomer } from '../components/RegisterCustomer'
 
 export const Customers = () => {
-   const url = 'http://localhost:9005/api/customers'
+   const url = 'https://apiejpservice.onrender.com/api/customers'
 
    const [customers, setCustomers] = useState([]);
    const [ids, setIds] = useState('');
@@ -130,7 +130,7 @@ export const Customers = () => {
                method: 'DELETE'
             }
 
-            axios.delete('http://localhost:9005/api/' + id);
+            axios.delete('https://apiejpservice.onrender.com/api/' + id);
 
             show_alerta('Cliente Eliminado', 'success')
             getCustomers();

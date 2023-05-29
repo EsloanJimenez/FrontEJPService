@@ -18,7 +18,7 @@ import { Searcher } from "../components/Searcher"
 import { RegisterAdmin } from "../components/RegisterAdmin"
 
 export const Admin = () => {
-   const url = 'http://localhost:9005/api/admin'
+   const url = 'https://apiejpservice.onrender.com/api/admin'
 
    const [admins, setAdmins] = useState([]);
 
@@ -121,7 +121,7 @@ export const Admin = () => {
                   body: JSON.stringify(parameters)
                }
 
-               axios.put('http://localhost:9005/api/updateAdmin/' + ids, {
+               axios.put('https://apiejpservice.onrender.com/api/updateAdmin/' + ids, {
                   idAdmin: ids,
                   photo: photo.trim(),
                   userName: userName.trim(),
@@ -156,7 +156,7 @@ export const Admin = () => {
          showCancelButton: true, confirmButtonText: 'Si, eliminar', cancelButtonText: 'cancelar'
       }).then((result) => {
          if (result.isConfirmed) {
-            axios.delete('http://localhost:9005/api/deleteAdmin/' + id);
+            axios.delete('https://apiejpservice.onrender.com/api/deleteAdmin/' + id);
 
             show_alerta('Administrador Eliminado', 'success')
             getAdmins();

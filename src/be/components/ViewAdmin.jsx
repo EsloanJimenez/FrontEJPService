@@ -2,7 +2,7 @@ export const ViewAdmin = ({ search, admins, openModal, deleteAdmin }) => {
    const result = admins.filter(value => value.userName.toLowerCase().includes(search)).map((reg, i) =>
       <tr key={i}>
          <td>{reg.idAdmin}</td>
-         <td>{<img src={`http://localhost:9005/${reg.photo}`} alt="imagen rota" />}</td>
+         <td>{<img src={`https://apiejpservice.onrender.com/${reg.photo}`} alt="imagen rota" />}</td>
          <td>{reg.userName}</td>
          <td>{reg.password}</td>
          <td>{reg.roll}</td>

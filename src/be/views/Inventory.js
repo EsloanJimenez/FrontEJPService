@@ -22,7 +22,7 @@ import { Searcher } from '../components/Searcher'
 import { RegisterProduct } from '../components/RegisterProduct'
 
 export const Inventory = () => {
-   const url = 'http://localhost:9005/api/'
+   const url = 'https://apiejpservice.onrender.com/api/'
    
    const [salesTotal, setSalesTotal] = useState([]);
    const [paymentWaiter, setPaymentWaiter] = useState([]);

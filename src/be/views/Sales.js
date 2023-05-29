@@ -24,7 +24,7 @@ import { UpdateWaiterEvent } from '../components/UpdateWaiterEvent'
 import { Searcher } from '../components/Searcher'
 
 export const Sales = () => {
-   const url = 'http://localhost:9005/api/'
+   const url = 'https://apiejpservice.onrender.com/api/'
 
    const [sales, setSales] = useState([]);
    const [event, setEvent] = useState([]);

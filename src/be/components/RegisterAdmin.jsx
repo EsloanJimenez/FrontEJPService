@@ -2,7 +2,7 @@ export const RegisterAdmin = ({title, closeClient, setPhoto, userName, setUserNa
    return (
       <div className="container-form hide_font">
          <div className="card fadeUp">
-            <form action="http://localhost:9005/api/admin" method="post" enctype="multipart/form-data">
+            <form action="https://apiejpservice.onrender.com/api/admin" method="post" enctype="multipart/form-data">
                <div className="card-header">
                   <span className='title'>{title}</span>
                   <button className='closeClient' onClick={closeClient}>X</button>

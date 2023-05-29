@@ -8,7 +8,7 @@ import '../../css/Card.css'
 import { Activos } from "../components/Activos";
 
 export const Panel = () => {
-   const url = 'http://localhost:9005/api/';
+   const url = 'https://apiejpservice.onrender.com/api/';
 
    const [sales, setSales] = useState([]);
    const [customers, setCustomers] = useState([]);
