@@ -61,6 +61,13 @@ tr td {
 tbody tr:nth-child(odd) {
    background-color: #f1f1f1;
 }
+.focus {
+   transition: all ease .3s;
+}
+.focus:hover {
+   border-radius: 10px;
+   box-shadow: inset 0 0 5px #000;
+}
 
 /* FORM NEW CUSTOMER */
 

@@ -1,6 +1,6 @@
 export const ViewSalesTable = ({ sales, search, modalInfo, addEvent, deleteSales }) => {
    const resultado = sales.filter(valor => valor.name.toLowerCase().includes(search.toLowerCase())).map((reg, i) =>
-      <tr key={i} title={reg.comment}>
+      <tr key={i} title={reg.comment} className="focus">
          <td>{i + 1}</td>
          <td>{reg.description}</td>
          <td>{reg.name}</td>

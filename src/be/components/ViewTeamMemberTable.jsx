@@ -1,6 +1,6 @@
 export const ViewTeamMemberTable = ({ search, teamMember, openModal, deleteTeamMember, FontAwesomeIcon, faPhone }) => {
    const result = teamMember.filter(value => value.lastName.toLowerCase().includes(search)).map((reg, i) =>
-      <tr key={i}>
+      <tr key={i} className="focus">
          <td>{reg.idTeamMember}</td>
          <td>{<img src={`http://localhost:9005/${reg.photo}`} alt="imagen rota" />}</td>
          <td>{reg.lastName}</td>

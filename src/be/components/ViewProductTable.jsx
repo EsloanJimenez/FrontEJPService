@@ -1,6 +1,6 @@
 export const ViewProductTable = ({ search, inventory, valuePrice, valueSubTotal, openModal, deleteInventory }) => {
    const result = inventory.filter(value => value.product.toLowerCase().includes(search)).map((reg, i) =>
-      <tr key={i}>
+      <tr key={i} className="focus">
          <td>{reg.idInventory}</td>
          <td>{reg.product}</td>
          <td>{reg.newDate}</td>

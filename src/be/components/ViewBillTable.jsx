@@ -1,6 +1,6 @@
 export const ViewBillTable = ({ search, bill, openModal, deleteBill }) => {
    const result = bill.filter(value => value.description.toLowerCase().includes(search)).map((reg, i) =>
-      <tr key={i}>
+      <tr key={i} className="focus">
          <td>{reg.idBill}</td>
          <td>{reg.description}</td>
          <td>{reg.newDate}</td>

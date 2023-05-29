@@ -1,6 +1,6 @@
 export const ViewCustomerTable = ({ search, customers, openModal, deleteCustomer }) => {
    const results = customers.filter(value => value.name.toLowerCase().includes(search.toLowerCase())).map((reg, i) =>
-      <tr key={i}>
+      <tr key={i} className="focus">
          <td>{reg.idCustomers}</td>
          <td>{reg.name}</td>
          <td>{reg.company}</td>

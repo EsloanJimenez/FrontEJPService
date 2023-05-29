@@ -1,6 +1,6 @@
 export const ViewWaiterToPay = ({ search, waiterToPay, waiterPay, deleteWaiter }) => {
    const results = waiterToPay.filter(value => value.lastName.toLowerCase().includes(search.toLowerCase())).map((reg, i) =>
-      <tr key={i} title={reg.comment}>
+      <tr key={i} title={reg.comment} className="focus">
          <td>{i + 1}</td>
          <td>{reg.lastName}</td>
          <td>{reg.firstName}</td>

@@ -320,8 +320,9 @@ export const Sales = () => {
          if (result.isConfirmed) {
             axios.delete(`${url}paymentWaiterDelete/${id}`);
 
-            show_alerta(`${lastName} ${firstName} fue eliminada del evento '${descripcion}'`, 'success');
             getSales();
+
+            show_alerta(`${lastName} ${firstName} fue eliminada del evento '${descripcion}'`, 'success');
          } else {
             show_alerta('El Camarero NO fue eliminada', 'info');
          }
@@ -423,6 +424,7 @@ export const Sales = () => {
                   total={total}
                   paymentWaiterTotal={paymentWaiterTotal}
                   eventProfit={eventProfit}
+                  deleteWaiter={deleteWaiter}
                />
             </div>
 
