@@ -39,7 +39,7 @@ export const Header = () => {
                   </li>
                   <li><Link to="/views/we">Nosotros</Link></li>
                   <li><Link to="/views/contact">Contacto</Link></li>
-                  <li><Link to="/views/backend">Back End</Link></li>
+                  <li><Link to="/be/views/panel">Back End</Link></li>
                 </ul>
             </nav>
          </header>
