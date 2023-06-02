@@ -12,7 +12,7 @@ import { show_alerta } from '../../js/Function'
 
 import '../../css/register.css'
 import '../../css/buttons.css'
-import { showHint } from '../../js/search'
+
 import { Searcher } from '../components/Searcher'
 import { ViewCustomerTable } from '../components/ViewCustomerTable'
 import { RegisterCustomer } from '../components/RegisterCustomer'
@@ -75,8 +75,6 @@ export const Customers = () => {
    }
 
    const validate = () => {
-      let parametros;
-
       if (name.trim() === '') show_alerta('Escribe el nombre del cliente', 'warning')
       else if (cellPhone.trim() === '') show_alerta('Escribe el numero de telefono del cliente', 'warning')
       else {

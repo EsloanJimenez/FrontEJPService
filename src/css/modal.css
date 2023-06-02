@@ -24,3 +24,9 @@
 .pay {
    color: green;
 }
+
+@media (max-width: 768px) {
+   .infoEvent {
+      flex-direction: column;
+   }
+}

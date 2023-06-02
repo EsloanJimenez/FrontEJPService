@@ -12,7 +12,7 @@ import { show_alerta } from '../../js/Function'
 
 import '../../css/register.css'
 import '../../css/buttons.css'
-import { showHint } from '../../js/search'
+
 import { TotalSales } from '../components/TotalSales'
 import { TotalBill } from '../components/TotalBill'
 import { TotalPaymentWaiter } from '../components/TotalPaymentWaiter'
@@ -219,16 +219,7 @@ export const Inventory = () => {
                />
             </div>
 
-            <ViewProductTable
-               search={search}
-               inventory={inventory}
-               openModal={openModal}
-               deleteInventory={deleteInventory}
-               valuePrice={valuePrice}
-               valueSubTotal={valueSubTotal}
-            />
-
-            <div className='container'>
+            <div className='container accounting'>
                <TotalSales totalS={salesTotal} />
                <TotalPaymentWaiter totalPW={paymentWaiter} />
                <TotalBill totalB={billTotal} />
@@ -238,6 +229,15 @@ export const Inventory = () => {
                   totalB={billTotal}
                /> 
             </div>
+
+            <ViewProductTable
+               search={search}
+               inventory={inventory}
+               openModal={openModal}
+               deleteInventory={deleteInventory}
+               valuePrice={valuePrice}
+               valueSubTotal={valueSubTotal}
+            />
 
             {/* REGISTRAR PRODUCTO  */}
             <RegisterProduct

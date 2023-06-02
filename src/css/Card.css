@@ -42,3 +42,29 @@
 .totales a .total .icono img {
    width: 100px;
 }
+
+@media (max-width: 768px) {
+   .totales {
+      height: 100vh;
+   }
+   .totales a .total {
+      width: 17em;
+      height: 100px;
+   }
+   .totales a .total .titulo {
+      top: 30px;
+      font-size: 14px;
+   }
+   .totales a .total .titulo h3:nth-child(1) {
+      font-size: 30px;
+   }
+   .totales a .total .icono {
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   .totales a .total .icono img {
+      width: 75px;
+   }
+}
