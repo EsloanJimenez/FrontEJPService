@@ -182,7 +182,7 @@ tbody tr:nth-child(odd) {
    z-index: 100;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
    .container-table {
       height: 90vh;
       margin: 50px 10px 0 10px;

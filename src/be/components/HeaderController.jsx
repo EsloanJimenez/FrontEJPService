@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import imgLogo from '../../images/logo_nuevo_blanco.png';
 
@@ -7,6 +8,8 @@ import { faAddressCard, faBars, faBug, faCartFlatbed, faCartShopping, faHandshak
 import '../../css/headerController.css'
 
 export const HeaderController = () => {
+   const [viewIcon, setViewIcon] = useState(faBars);
+
    const view = () => {
       const lateralMenu = document.querySelector('.lateral_menu');
       lateralMenu.classList.toggle('show');
@@ -14,12 +17,14 @@ export const HeaderController = () => {
       const iconClouse = document.querySelector('.iconClouse');
       iconClouse.classList.toggle('colorWhite')
 
+      if(lateralMenu.classList.contains('show')) setViewIcon(faXmark);
+      else setViewIcon(faBars);
    }
 
    return (
       <>
          <div className='iconClouse' onClick={view}>
-            <FontAwesomeIcon icon={faBars} />
+            <FontAwesomeIcon icon={viewIcon} />
          </div>
 
          <div className="lateral_menu">
