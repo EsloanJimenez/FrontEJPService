@@ -5,7 +5,6 @@ import { HeaderController } from "../components/HeaderController"
 import Card from "../components/Card";
 
 import '../../css/Card.css'
-import { Activos } from "../components/Activos";
 
 export const Panel = () => {
    const url = 'http://localhost:9005/api/';
@@ -45,7 +44,7 @@ export const Panel = () => {
          <HeaderController />
 
          <div className="totales">
-         <Card
+            <Card
                link='be/views/sales'
                leftColor='#A74CF2'
                rightColor='#47ceff'

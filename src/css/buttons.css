@@ -8,30 +8,37 @@
    cursor: pointer;
    transition: all ease .5s;
 }
+
 .btn-info {
    border: 1px solid #0dcaf0;
    color: #0dcaf0;
 }
+
 .btn-info:hover {
    background-color: #0dcaf0;
    color: #fff;
 }
+
 .btn-delete {
    border: 1px solid red;
    color: red;
 }
+
 .btn-delete:hover {
    background-color: red;
    color: #fff;
 }
+
 .btn-update {
    border: 1px solid #b05d00;
    color: #b05d00;
 }
+
 .btn-update:hover {
    background-color: #b05d00;
    color: #fff;
 }
+
 .btn-primary {
    border: 2px solid #0d6efd;
    /* background-color: #0d6dfd00; */
@@ -39,42 +46,69 @@
    /* color: #fff; */
    /* border: 0; */
 }
+
 .btn-primary:hover {
    background-color: #0a56c8;
 }
+
 .btn-secondary {
    border: 2px solid #666f77;
    /* background-color: #666f77; */
    /* color: #fff; */
 }
+
 .btn-secondary:hover {
    background-color: #474d52;
 }
 
-#addRegister, #addWaiter {
+#addRegister,
+#addWaiter {
    width: 50px;
    height: 50px;
    border-radius: 10px;
    cursor: pointer;
 }
-#addRegister span, #addWaiter span {
+
+#addRegister span,
+#addWaiter span {
    font-size: 25px;
    transition: all ease 1s;
 }
+
 #addRegister span {
    color: #0a56c8;
 }
+
 #addWaiter span {
    color: #666f77;
 }
-#addRegister:hover > span{
+
+#addRegister:hover>span {
    color: #fff;
 }
-#addWaiter:hover > span {
+
+#addWaiter:hover>span {
    color: #fff;
 }
+
 #addRegister:hover {
    border: 2px solid #fff;
    background-color: #0d6efd;
 }
 
+@media (max-width: 768px) {
+   .btn {
+      margin: 5px 2.5px;
+      padding: 2.5px 5px;
+      font-size: 10px;
+   }
+
+   #addRegister, #addWaiter {
+      width: 30px;
+      height: 30px;
+   }
+
+   #addRegister span, #addWaiter span {
+      font-size: 15px;
+   }
+}

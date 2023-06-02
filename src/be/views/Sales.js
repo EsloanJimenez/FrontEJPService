@@ -335,8 +335,10 @@ export const Sales = () => {
 
          <div className="container-table">
             <div className='header'>
-               <button name="addRegister" id="addRegister" className="btn-primary" onClick={() => addEvent(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
-               <button name="addWaiter" id="addWaiter" className="btn-secondary" onClick={() => addWaiter()}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
+               <div className='headerBtn'>
+                  <button name="addRegister" id="addRegister" className="btn-primary" onClick={() => addEvent(1)}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
+                  <button name="addWaiter" id="addWaiter" className="btn-secondary" onClick={() => addWaiter()}><span><FontAwesomeIcon icon={faCirclePlus} /></span></button>
+               </div>
 
                <Searcher
                   holder='Buscar Por Nombre Del Cliente'

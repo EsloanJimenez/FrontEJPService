@@ -9,7 +9,7 @@ export const RegisterSales = ({title, closeClient, customer, idCustomers, nameCu
             <div className="card-body">
                <div className="mb-3">
                   <label htmlFor="description" className="form-label">Descripcion</label>
-                  <textarea rows="5" cols="30" placeholder='Descripcion' className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                  <textarea rows="2" cols="30" placeholder='Descripcion' className="form-control" id="description" name="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
                </div>
                <div className="mb-3">
                   <label htmlFor="idCustomers" className="form-label">Cliente</label>
@@ -40,7 +40,7 @@ export const RegisterSales = ({title, closeClient, customer, idCustomers, nameCu
                </div>
                <div className="mb-3">
                   <label htmlFor="time" className="form-label">Comentario</label>
-                  <textarea className='form-control' id='comment' name='comment' value={comment} rows="5" cols="30" placeholder='Comentario' maxLength='200' onChange={(e) => setComment(e.target.value)}></textarea>
+                  <textarea className='form-control' id='comment' name='comment' value={comment} rows="3" cols="30" placeholder='Comentario' maxLength='200' onChange={(e) => setComment(e.target.value)}></textarea>
                </div>
                <button onClick={() => validar(1)} className="btn btn-primary" >{btnSubmit}</button>
             </div>

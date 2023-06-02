@@ -161,6 +161,15 @@ tbody tr:nth-child(odd) {
    color: #000;
 }
 
+.accounting {
+   height: 10vh;
+   display: flex;
+   justify-content: space-between;
+}
+.accounting table th {
+   padding: 10px;
+}
+
 #listaCiudades img {
    width: 50px;
    height: 50px;
@@ -171,4 +180,71 @@ tbody tr:nth-child(odd) {
    transform: translate(100px, 100px)  scale(5.5);
    border-radius: 10px;
    z-index: 100;
+}
+
+@media (max-width: 768px) {
+   .container-table {
+      height: 90vh;
+      margin: 50px 10px 0 10px;
+   }
+   .header {
+      flex-direction: column;
+   }
+   .header .headerBtn button {
+      margin: 0 10px 10px 0;
+   }
+   .header #campo {
+      width: 200px;
+      margin: 5px 0;
+      padding: 5px;
+      font-size: 12px;
+   }
+   .card-header {
+      height: 40px;
+      padding: 10px ;
+   }
+   .table {
+      height: 85vh;
+      border-radius: 10px;
+   }
+   .table::-webkit-scrollbar {
+      width: 2px;
+   }
+   .table::-webkit-scrollbar-thumb {
+      background-color: #0d6efd;
+      border-radius: 2px;
+   }
+   table thead tr {
+      background-color: #0d6efd;
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: #fff;
+      position:sticky;
+      top: 0;
+   }
+   table tr th, tr td {
+      font-size: 11px;
+      padding: 10px 0;
+      text-align: center;
+   }
+   tr td {
+      padding: 0;
+   }
+   tbody tr:nth-child(odd) {
+      background-color: #f1f1f1;
+   }
+
+   .card {
+      width: 300px;
+      margin-top: 50px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      background-color: #fff;
+   }
+   .form-control {
+      width: 100%;
+      padding: 10px 5px;
+      border: 1px solid #bbbbbb;
+      border-radius: 10px;
+      font-size: 12px;
+   }
 }

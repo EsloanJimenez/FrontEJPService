@@ -52,8 +52,53 @@ li {
 }
 .efecto {
    height: 40px;
-   transform: translate(-400px, 0px);
+   transform: translate(-500px, 0px);
    transition: all ease .5s;
    background-color: #0d6efd;
    
-} 
+}
+
+.iconClouse {
+   display: none;
+}
+
+@media (max-width: 768px) {
+   .iconClouse {
+      font-size: 30px;
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 100;
+      transition: all ease 1s;
+   }
+   .lateral_menu {
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(33, 37, 41, 0.9);
+      transform: translateX(-500px);
+      position: absolute;
+      z-index: 99;
+      transition: all ease 1s;
+   }
+   .main {
+      width: 100%;
+   }
+   li {
+      height: 50px;
+   }
+   .lateral_menu .main li a {
+      width: 100%;
+      font-size: 22px;
+   }
+   .show {
+      transform: translateX(0px);
+   }
+   .efecto {
+      height: 50px;
+   }
+   .colorWhite {
+      color: #fff;
+   }
+}
