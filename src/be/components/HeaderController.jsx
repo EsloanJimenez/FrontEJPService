@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import imgLogo from '../../images/logo_nuevo_blanco.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAddressCard, faBug, faCartFlatbed, faCartShopping, faHandshake, faHouseChimney, faMoneyBillTrendUp, faRightFromBracket, faUser, faUserPlus, faWarehouse, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faBars, faBug, faCartFlatbed, faCartShopping, faHandshake, faHouseChimney, faMoneyBillTrendUp, faRightFromBracket, faUser, faUserPlus, faWarehouse, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import '../../css/headerController.css'
 
 export const HeaderController = () => {
+   const [viewIcon, setViewIcon] = useState(faBars);
+
    const view = () => {
       const lateralMenu = document.querySelector('.lateral_menu');
       lateralMenu.classList.toggle('show');
@@ -14,12 +17,14 @@ export const HeaderController = () => {
       const iconClouse = document.querySelector('.iconClouse');
       iconClouse.classList.toggle('colorWhite')
 
+      if(lateralMenu.classList.contains('show')) setViewIcon(faXmark);
+      else setViewIcon(faBars);
    }
 
    return (
       <>
          <div className='iconClouse' onClick={view}>
-            <FontAwesomeIcon icon={faXmark} />
+            <FontAwesomeIcon icon={viewIcon} />
          </div>
 
          <div className="lateral_menu">

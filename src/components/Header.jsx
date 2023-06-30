@@ -5,7 +5,7 @@ import '../css/style.css'
 import '../css/header.css'
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faLocationDot, faAngleDown} from '@fortawesome/free-solid-svg-icons'
+import {faLocationDot} from '@fortawesome/free-solid-svg-icons'
 import {faWhatsapp} from '@fortawesome/free-brands-svg-icons'
 
 export const Header = () => {
@@ -39,6 +39,7 @@ export const Header = () => {
                   </li>
                   <li><Link to="/views/we">Nosotros</Link></li>
                   <li><Link to="/views/contact">Contacto</Link></li>
+                  <li><Link to="/be/views/panel">Back End</Link></li>
                 </ul>
             </nav>
          </header>
