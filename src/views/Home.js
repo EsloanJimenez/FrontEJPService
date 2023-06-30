@@ -7,6 +7,8 @@ import {EffectCurva} from "../components/EffectCurva";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import { Maintenance } from "./Maintenance";
+
 const Home = () => {
    const url = 'https://apiejpservice.onrender.com/api/';
 
@@ -27,7 +29,8 @@ const Home = () => {
 
    return(
       <div>
-         <div className="fondo BannerHome"></div>
+         <Maintenance />
+         {/* <div className="fondo BannerHome"></div>
 
          <Header />
 
@@ -44,7 +47,7 @@ const Home = () => {
 
          <Footer />
 
-         <div id="opaco"></div>
+         <div id="opaco"></div> */}
       </div>
    )
 
