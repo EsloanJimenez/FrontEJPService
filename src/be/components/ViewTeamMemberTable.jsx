@@ -2,10 +2,10 @@ export const ViewTeamMemberTable = ({ search, teamMember, openModal, deleteTeamM
    const result = teamMember.filter(value => value.lastName.toLowerCase().includes(search)).map((reg, i) =>
       <tr key={i} className="focus">
          <td>{reg.idTeamMember}</td>
-         <td>{reg.photo}</td>
+         <td>{<img src={`https://apiejpservice.onrender.com/${reg.photo}`} alt="imagen rota" />}</td>
          <td>{reg.lastName}</td>
          <td>{reg.firstName}</td>
-         <td>{reg.idCard}</td>z
+         <td>{reg.idCard}</td>
          <td><FontAwesomeIcon icon={faPhone} /><a target='_blank' href={`https://api.whatsapp.com/send?phone=1${reg.cellPhone}`}>{reg.cellPhone}</a></td>
          <td>{reg.sex}</td>
          <td>{reg.cluster}</td>
