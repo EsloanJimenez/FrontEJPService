@@ -1,0 +1,21 @@
+article {
+   width: 100px;
+   height: 100px;
+   background-color: rgb(96, 150, 197);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 10px;
+   border: 2px solid rgba(208, 208, 208, 0.779);
+   box-shadow: 0 0 10px .1px;
+   font-size: 40px;
+   cursor: pointer;
+   overflow: hidden;
+   transition: all ease 1s;
+}
+span {
+   transition: all ease .5s;
+}
+article:hover span {
+   transform:rotate(-45deg) scale(2);
+}

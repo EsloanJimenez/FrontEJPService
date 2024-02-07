@@ -14,6 +14,7 @@ import '../../css/register.css'
 import '../../css/buttons.css'
 
 import { TotalSales } from '../components/TotalSales'
+import { TotalSales2024 } from '../components/TotalSales2024'
 import { TotalBill } from '../components/TotalBill'
 import { TotalPaymentWaiter } from '../components/TotalPaymentWaiter'
 import { Activos } from '../components/Activos'
@@ -25,7 +26,9 @@ export const Inventory = () => {
    const url = 'https://apiejpservice.onrender.com/api/'
    
    const [salesTotal, setSalesTotal] = useState([]);
+   const [salesTotal2024, setSalesTotal2024] = useState([]);
    const [paymentWaiter, setPaymentWaiter] = useState([]);
+   const [paymentWaiter2024, setPaymentWaiter2024] = useState([]);
    const [billTotal, setBillTotal] = useState([]);
 
    const [inventory, setInventory] = useState([]);
@@ -108,8 +111,14 @@ export const Inventory = () => {
       const st = await axios(`${url}salesTotal`);
       setSalesTotal(st.data);
 
+      const st2024 = await axios(`${url}salesTotal2024`);
+      setSalesTotal2024(st2024.data);
+
       const pw = await axios(`${url}payWaiter`);
       setPaymentWaiter(pw.data);
+
+      const pw2024 = await axios(`${url}payWaiter2024`);
+      setPaymentWaiter2024(pw2024.data);
    }
 
    const openModal = (op, id, product, date, time, amount, price) => {
@@ -225,6 +234,16 @@ export const Inventory = () => {
                <TotalBill totalB={billTotal} />
                <Activos 
                   totalS={salesTotal}
+                  totalPW={paymentWaiter}
+                  totalB={billTotal}
+               /> 
+
+               
+               <TotalSales2024 totalS2024={salesTotal2024} />
+               <TotalPaymentWaiter totalPW={paymentWaiter2024} />
+               <TotalBill totalB={billTotal} />
+               <Activos 
+                  totalS={salesTotal2024}
                   totalPW={paymentWaiter}
                   totalB={billTotal}
                /> 
